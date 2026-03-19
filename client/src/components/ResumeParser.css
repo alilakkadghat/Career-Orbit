@@ -1,0 +1,209 @@
+.resume-parser-wrapper {
+    margin-bottom: 24px;
+}
+
+/* Upload Zone */
+.rp-upload-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 28px 20px;
+    border: 2px dashed var(--primary-color, #FF6E14);
+    border-radius: 16px;
+    background: rgba(255, 110, 20, 0.04);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.rp-upload-zone:hover {
+    background: rgba(255, 110, 20, 0.08);
+    border-color: #ff8c3e;
+    transform: translateY(-2px);
+}
+
+.rp-upload-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.rp-upload-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--text-main);
+}
+
+.rp-upload-text strong {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.rp-upload-text span {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.rp-filename {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color, #FF6E14);
+}
+
+.rp-upload-cta {
+    margin-top: 4px;
+    padding: 8px 20px;
+    background: var(--primary-color, #FF6E14);
+    color: white;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Status Messages */
+.rp-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.rp-status.loading {
+    background: rgba(59, 130, 246, 0.08);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.rp-status.error {
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Spinner */
+.rp-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(59, 130, 246, 0.2);
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: rp-spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes rp-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Results */
+.rp-results {
+    margin-top: 16px;
+    padding: 20px;
+    border-radius: 16px;
+    background: var(--bg-white, white);
+    border: 1px solid var(--border-color, #e5e7eb);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.rp-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rp-results-header h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+    color: var(--text-main);
+}
+
+.rp-results-header p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+.rp-select-all {
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    background: transparent;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text-main);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.rp-select-all:hover {
+    background: var(--bg-light);
+}
+
+/* Skills Pills */
+.rp-skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.rp-skill-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 50px;
+    border: 2px solid var(--pill-color, #3b82f6);
+    background: transparent;
+    color: var(--text-main);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.5;
+}
+
+.rp-skill-pill.selected {
+    background: var(--pill-color, #3b82f6);
+    color: white;
+    opacity: 1;
+}
+
+.rp-skill-pill:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+.rp-cat-badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.25);
+    text-transform: capitalize;
+    font-weight: 700;
+}
+
+.rp-skill-pill:not(.selected) .rp-cat-badge {
+    background: rgba(0,0,0,0.08);
+}
+
+/* Actions */
+.rp-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+}

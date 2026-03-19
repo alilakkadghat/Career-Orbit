@@ -1,0 +1,202 @@
+.timeline-page {
+    min-height: 100vh;
+    background: var(--bg-light);
+}
+
+.timeline-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    padding: 40px 0;
+}
+
+.timeline-line-background {
+    position: absolute;
+    left: 40px;
+    top: 60px; /* Start at first marker center */
+    bottom: 100px; /* End at last marker center */
+    width: 4px;
+    background: rgba(255, 255, 255, 0.05); /* Very subtle track */
+    border-radius: 10px;
+    z-index: 0;
+}
+
+.timeline-progress {
+    position: absolute;
+    left: 40px;
+    top: 60px;
+    width: 4px;
+    background: var(--grad-primary);
+    box-shadow: 0 0 20px rgba(255, 110, 20, 0.4);
+    border-radius: 10px;
+    z-index: 1;
+    transition: height 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.timeline-traveler {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(135deg);
+    font-size: 28px;
+    filter: drop-shadow(0 0 15px rgba(255, 110, 20, 0.6));
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 100px;
+    margin-bottom: 80px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.timeline-item.active {
+    transform: scale(1.02) translateX(10px);
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 16px;
+    top: 30px; /* Align with card top */
+    z-index: 5;
+}
+
+.marker-dot {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%; /* Circle for 'box' look */
+    background: #1F2937;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 2;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.timeline-item.passed .marker-dot {
+    background: var(--grad-primary);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 110, 20, 0.4);
+    transform: scale(1.1);
+}
+
+.timeline-item.active .marker-dot {
+    transform: scale(1.25);
+    border-color: #fff;
+    box-shadow: 0 0 30px rgba(255, 110, 20, 0.6);
+}
+
+.marker-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--primary-color);
+    opacity: 0;
+    z-index: 1;
+    transition: all 0.5s;
+}
+
+.timeline-item.active .marker-pulse {
+    animation: marker-pop 1.5s infinite;
+}
+
+@keyframes marker-pop {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
+.timeline-card {
+    padding: 30px;
+}
+
+.timeline-timeframe {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(255, 110, 20, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.timeline-title {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.timeline-role {
+    font-weight: 700;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.status-badge.current {
+    background: #E6F4EA;
+    color: #1E8E3E;
+}
+
+.status-badge.upcoming {
+    background: #E8F0FE;
+    color: #1967D2;
+}
+
+.status-badge.target {
+    background: #FEF7E0;
+    color: #F29900;
+}
+
+.timeline-skills h4 {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.skill-badge {
+    padding: 6px 14px;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+
+    .timeline-line,
+    .timeline-progress {
+        left: 20px;
+    }
+
+    .timeline-item {
+        padding-left: 60px;
+    }
+
+    .timeline-marker {
+        left: 0;
+    }
+
+    .marker-dot {
+        width: 40px;
+        height: 40px;
+    }
+}

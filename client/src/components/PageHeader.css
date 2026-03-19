@@ -1,0 +1,59 @@
+.page-header {
+    background: var(--grad-dark);
+    color: white;
+    padding: 100px 0 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header .section-title {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.page-header .section-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.15rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.grad-primary {
+    background: var(--grad-primary);
+}
+
+.grad-blue {
+    background: var(--grad-blue);
+}
+
+.grad-black {
+    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+}
+
+.grad-green {
+    background: linear-gradient(135deg, #002D1A 0%, #004D2D 100%);
+}
+
+.header-decoration {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200%;
+    height: 100px;
+    background: var(--bg-white);
+    border-radius: 50% 50% 0 0;
+    z-index: 0;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.page-header .badge-pill {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}

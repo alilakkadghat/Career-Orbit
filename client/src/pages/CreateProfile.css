@@ -1,0 +1,550 @@
+.create-profile-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.profile-hero {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #2d2d2d 100%);
+    color: white;
+    padding: 60px 0 40px;
+}
+
+.profile-hero .section-title {
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.profile-hero .section-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.profile-form-section {
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+
+/* Step Progress */
+.step-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    position: relative;
+    padding: 0;
+}
+
+.progress-line {
+    position: absolute;
+    top: 24px; /* Exactly half of 48px step-number height */
+    left: 24px;
+    right: 24px;
+    height: 4px;
+    background: var(--border-color);
+    transform: translateY(-50%);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.progress-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.5s ease;
+    border-radius: 10px;
+    width: var(--progress-width, 0%);
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px; /* Restored previous rounded square shape */
+    background: #ffffff !important;
+    border: 3px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0;
+    position: relative;
+    z-index: 3;
+}
+
+/* Completed Steps */
+.step-indicator.active:not(.current) .step-number {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color);
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(255, 110, 20, 0.2);
+}
+
+/* Current Step */
+.step-indicator.current .step-number {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color);
+    color: white !important;
+    box-shadow: 0 10px 25px rgba(255, 110, 20, 0.4);
+    transform: scale(1.1); /* Highlight current step */
+}
+
+/* Hover effect for interactivity */
+.step-indicator .step-number:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Removed step-label styles as they are no longer used */
+
+/* Form Card */
+.form-card {
+    max-width: 800px;
+    /* Slightly wider to match step-progress better */
+    margin: 0 auto;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+.form-step {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.step-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* Form Elements */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: var(--bg-white);
+    color: var(--text-main);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 110, 20, 0.1);
+}
+
+.form-group input::placeholder {
+    color: var(--text-light);
+}
+
+.form-group.has-error input,
+.form-group.has-error select {
+    border-color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.02);
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Skills Selection */
+.skills-selection {
+    margin-bottom: 2rem;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.skill-pill {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-white);
+    color: var(--text-main);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.skill-pill:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.skill-pill.selected {
+    background: linear-gradient(135deg, var(--primary-color), #ff8c42);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.check-icon {
+    font-size: 1rem;
+}
+
+.selected-count {
+    text-align: center;
+    color: var(--text-secondary);
+    font-weight: 600;
+    padding: 1rem;
+    background: var(--bg-light);
+    border-radius: var(--radius-sm);
+}
+
+/* Resume parser divider */
+.skills-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.skills-divider::before,
+.skills-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.skills-divider span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* Completion Message */
+.completion-message {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(255, 110, 20, 0.1), rgba(255, 140, 66, 0.1));
+    border-radius: var(--radius-md);
+    margin-top: 2rem;
+}
+
+.completion-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.completion-message h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.completion-message p {
+    color: var(--text-secondary);
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.spacer {
+    flex: 1;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* Certifications Section */
+.certifications-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.cert-form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.cert-input-main {
+    flex: 2;
+}
+
+.cert-input-sub {
+    flex: 1;
+}
+
+.cert-input-date {
+    flex: 0 0 80px;
+}
+
+.cert-form-row input {
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+}
+
+.cert-form-row input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.cert-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cert-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--bg-light);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+}
+
+.cert-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.cert-details strong {
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.cert-details span {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.remove-cert-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.remove-cert-btn:hover {
+    background: rgba(255, 0, 0, 0.1);
+    color: red;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-form-section {
+        padding-top: 20px;
+        padding-bottom: 120px; /* Extra padding for chatbot breathing room */
+    }
+
+    .form-card {
+        padding: 2rem 1.25rem;
+        border-radius: var(--radius-md);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .step-progress {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 2.5rem;
+        padding: 0 40px;
+        justify-content: space-between;
+    }
+
+    .step-number {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+        border-width: 2px;
+    }
+
+    .progress-line {
+        top: 19px;
+        left: 40px;
+        right: 40px;
+    }
+
+    .step-title {
+        font-size: 1.5rem;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .skill-pill {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .cert-form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .cert-input-date {
+        flex: 1;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .btn-primary, .btn-outline {
+        width: 100%;
+    }
+
+    .spacer {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-card {
+        padding: 1.5rem 1rem;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+    }
+
+    .step-progress {
+        padding: 0 30px;
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+    }
+
+    .progress-line {
+        top: 16px;
+        left: 30px;
+        right: 30px;
+    }
+
+    .step-title {
+        font-size: 1.3rem;
+    }
+
+    .step-description {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+}

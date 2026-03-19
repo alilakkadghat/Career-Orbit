@@ -1,0 +1,693 @@
+/* ===== Resume Builder Page ===== */
+.resume-builder-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+[data-theme="dark"] .resume-builder-page {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+}
+
+.resume-builder-section {
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+
+/* ===== Import Profile Banner ===== */
+.rb-import-banner {
+    max-width: 850px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(255, 110, 20, 0.08), rgba(255, 140, 66, 0.12));
+    border: 2px solid rgba(255, 110, 20, 0.25);
+    border-radius: var(--radius-md);
+    animation: rbFadeIn 0.4s ease;
+    position: relative;
+}
+
+.rb-import-banner-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.rb-import-banner-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rb-import-banner-text strong {
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+}
+
+.rb-import-banner-text span {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.rb-import-banner .btn {
+    white-space: nowrap;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.rb-import-dismiss {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--text-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rb-import-dismiss:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: var(--text-main);
+}
+
+@media (max-width: 768px) {
+    .rb-import-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 16px;
+    }
+
+    .rb-import-banner .btn {
+        width: 100%;
+    }
+}
+
+/* ===== Step Progress ===== */
+.rb-step-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    position: relative;
+    padding: 0;
+}
+
+.rb-progress-line {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    right: 24px;
+    height: 4px;
+    background: var(--border-color);
+    transform: translateY(-50%);
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.rb-progress-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.5s ease;
+    border-radius: 10px;
+    width: var(--progress-width, 0%);
+}
+
+.rb-step-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    width: 48px;
+    flex-shrink: 0;
+}
+
+.rb-step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--bg-white) !important;
+    border: 3px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 3;
+}
+
+.rb-step-label {
+    margin-top: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-light);
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.rb-step-indicator.active:not(.current) .rb-step-number {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color);
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(255, 110, 20, 0.2);
+}
+
+.rb-step-indicator.active .rb-step-label {
+    color: var(--primary-color);
+}
+
+.rb-step-indicator.current .rb-step-number {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color);
+    color: white !important;
+    box-shadow: 0 10px 25px rgba(255, 110, 20, 0.4);
+    transform: scale(1.1);
+}
+
+.rb-step-indicator.current .rb-step-label {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* ===== Form Card ===== */
+.rb-form-card {
+    max-width: 850px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+.rb-form-step {
+    animation: rbFadeIn 0.4s ease;
+}
+
+@keyframes rbFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rb-step-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.rb-step-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+/* ===== Form Grid & Elements ===== */
+.rb-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.rb-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.rb-form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.rb-form-group label {
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.rb-form-group input,
+.rb-form-group select,
+.rb-form-group textarea {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: var(--bg-white);
+    color: var(--text-main);
+    font-family: inherit;
+}
+
+.rb-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+}
+
+.rb-form-group input:focus,
+.rb-form-group select:focus,
+.rb-form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 110, 20, 0.1);
+}
+
+.rb-form-group input::placeholder,
+.rb-form-group textarea::placeholder {
+    color: var(--text-light);
+}
+
+.rb-form-group.has-error input,
+.rb-form-group.has-error select,
+.rb-form-group.has-error textarea {
+    border-color: #ff4d4d;
+}
+
+.rb-error-msg {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    animation: rbSlideIn 0.2s ease;
+}
+
+@keyframes rbSlideIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Dynamic Entries (Experience, Projects, Certs) ===== */
+.rb-entries-section {
+    margin-bottom: 2rem;
+}
+
+.rb-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.rb-section-subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.rb-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 110, 20, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.rb-add-btn:hover {
+    background: rgba(255, 110, 20, 0.2);
+    transform: translateY(-1px);
+}
+
+.rb-entry-card {
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    position: relative;
+    animation: rbFadeIn 0.3s ease;
+}
+
+.rb-entry-card .rb-form-grid {
+    margin-bottom: 0;
+}
+
+.rb-remove-entry {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.rb-remove-entry:hover {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4d4d;
+}
+
+.rb-no-entries {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+}
+
+/* ===== Skills Input ===== */
+.rb-skills-input-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.rb-skills-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.rb-skills-input-row input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    background: var(--bg-white);
+    color: var(--text-main);
+    transition: all 0.2s ease;
+}
+
+.rb-skills-input-row input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 110, 20, 0.1);
+}
+
+.rb-skills-input-row .rb-add-skill-btn {
+    padding: 0.75rem 1.25rem;
+    background: var(--grad-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.rb-skills-input-row .rb-add-skill-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 110, 20, 0.3);
+}
+
+.rb-skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.rb-skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(255, 110, 20, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.rb-skill-tag button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.rb-skill-tag button:hover {
+    background: rgba(255, 110, 20, 0.2);
+}
+
+/* ===== Suggested Skill Pills ===== */
+.rb-suggested-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.rb-suggested-pill {
+    padding: 8px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-white);
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rb-suggested-pill:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.rb-suggested-pill.selected {
+    background: linear-gradient(135deg, var(--primary-color), #ff8c42);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.rb-suggested-pill .check-icon {
+    font-size: 0.8rem;
+}
+
+/* ===== Photo Upload ===== */
+.rb-photo-upload {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.rb-photo-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    gap: 4px;
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+
+.rb-photo-dropzone:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 110, 20, 0.03);
+}
+
+.rb-photo-icon {
+    font-size: 1.8rem;
+    margin-bottom: 4px;
+}
+
+.rb-photo-hint {
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.rb-photo-preview {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.rb-photo-preview img {
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+.rb-photo-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ff4d4d;
+    color: white;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.rb-photo-remove:hover {
+    transform: scale(1.1);
+}
+
+/* ===== Form Actions ===== */
+.rb-form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.rb-form-actions .spacer {
+    flex: 1;
+}
+
+.rb-form-actions .btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .resume-builder-section {
+        padding-top: 20px;
+        padding-bottom: 120px;
+    }
+
+    .rb-form-card {
+        padding: 2rem 1.25rem;
+        border-radius: var(--radius-md);
+    }
+
+    .rb-form-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .rb-step-progress {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+
+    .rb-step-label {
+        display: none;
+    }
+
+    .rb-step-number {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+    }
+
+    .rb-progress-line {
+        top: 19px;
+        left: 20px;
+        right: 20px;
+    }
+
+    .rb-step-title {
+        font-size: 1.5rem;
+    }
+
+    .rb-form-actions {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .rb-form-actions .btn {
+        width: 100%;
+    }
+
+    .rb-form-actions .spacer {
+        display: none;
+    }
+
+    .rb-skills-input-row {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .rb-form-card {
+        padding: 1.5rem 1rem;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+    }
+
+    .rb-step-number {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+    }
+
+    .rb-progress-line {
+        top: 16px;
+    }
+
+    .rb-step-title {
+        font-size: 1.3rem;
+    }
+
+    .rb-step-description {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+}
