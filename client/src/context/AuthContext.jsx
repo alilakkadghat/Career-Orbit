@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   // In client/src/context/AuthContext.jsx
   const API_URL =
     (
-      import.meta.env.VITE_API_URL || "https://careerorbit-ai-2.onrender.com"
+      import.meta.env.VITE_API_URL || "https://careerorbit-api-2h33.onrender.com"
     ).replace(/\/$/, "") + "/api";
 
   useEffect(() => {
