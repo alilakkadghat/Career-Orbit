@@ -1,0 +1,217 @@
+.stipend-page {
+  min-height: 100vh;
+}
+
+.stipend-content {
+  padding: 60px 0;
+}
+
+.stipend-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .stipend-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form Card */
+.stipend-form-card {
+  padding: 32px;
+  position: sticky;
+  top: 100px;
+}
+
+.stipend-form-card h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.stipend-form-card .form-group {
+  margin-bottom: 18px;
+}
+
+.stipend-form-card label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-main);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.stipend-form-card input,
+.stipend-form-card select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: var(--bg-white);
+  color: var(--text-main);
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.stipend-form-card input:focus,
+.stipend-form-card select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.stipend-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+/* Empty State */
+.stipend-empty {
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.stipend-empty h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.stipend-facts {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  max-width: 260px;
+  margin-inline: auto;
+}
+
+.fact-item {
+  font-size: 0.9rem;
+  padding: 10px 14px;
+  background: var(--bg-light);
+  border-radius: 10px;
+  color: var(--text-secondary);
+}
+
+/* Loading */
+.stipend-loading {
+  padding: 60px 32px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Results Stack */
+.results-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Verdict Banner */
+.verdict-banner {
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-left: 4px solid var(--verdict-color, var(--primary));
+}
+
+.verdict-emoji {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.verdict-text {
+  flex: 1;
+}
+
+.verdict-text h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--verdict-color, var(--primary));
+  margin-bottom: 4px;
+}
+
+.verdict-text p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.percentile-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-light);
+  border-radius: 12px;
+  padding: 12px 18px;
+  flex-shrink: 0;
+}
+
+.percentile-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--verdict-color, var(--primary));
+  line-height: 1;
+}
+
+.percentile-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Content Cards */
+.chart-card,
+.analysis-card,
+.negotiation-card,
+.tier-card {
+  padding: 24px 28px;
+}
+
+.chart-card h3,
+.analysis-card h3,
+.negotiation-card h3,
+.tier-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.analysis-card p,
+.negotiation-card p,
+.tier-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}

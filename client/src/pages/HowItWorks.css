@@ -1,0 +1,198 @@
+/* Page Base */
+.how-it-works-page {
+    background-color: var(--bg-white);
+    overflow-x: hidden;
+}
+
+/* Hero */
+.works-hero {
+    padding-bottom: 80px;
+    background: radial-gradient(circle at 50% 100%, rgba(255, 110, 20, 0.08), transparent 50%);
+}
+
+/* Journey Section */
+.journey-section {
+    position: relative;
+    padding: 60px 0 120px;
+}
+
+/* Connecting Line */
+.journey-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-image: linear-gradient(to bottom, var(--primary-color) 40%, rgba(255, 255, 255, 0) 0%);
+    background-position: left;
+    background-size: 2px 20px;
+    /* Dashed effect */
+    background-repeat: repeat-y;
+    transform: translateX(-50%);
+    z-index: 0;
+    opacity: 0.3;
+}
+
+/* Step Layout */
+.journey-step {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 120px;
+    position: relative;
+    z-index: 1;
+}
+
+.journey-step:last-child {
+    margin-bottom: 0;
+}
+
+.journey-step.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Content & Visuals */
+.step-content,
+.step-visual {
+    flex: 1;
+}
+
+.step-content {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* Step Number Badge */
+.step-number {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 10px 20px rgba(255, 110, 20, 0.3);
+}
+
+.journey-step.reverse .step-number {
+    left: auto;
+    right: -20px;
+}
+
+/* Typography */
+.step-content h2 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.step-content h3 {
+    font-size: 1.75rem;
+    margin-bottom: 16px;
+    color: var(--secondary-color);
+}
+
+.step-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+/* Images */
+.img-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+    transform: perspective(1000px) rotateY(10deg);
+    transition: transform 0.5s ease;
+}
+
+.journey-step.reverse .img-wrapper {
+    transform: perspective(1000px) rotateY(-10deg);
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* Hover Effects */
+.journey-step:hover .img-wrapper {
+    transform: perspective(1000px) rotateY(0deg);
+}
+
+.journey-step:hover .img-wrapper img {
+    transform: scale(1.05);
+}
+
+/* Scroll Animations */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* CTA */
+.works-cta {
+    background: var(--bg-light);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .journey-line {
+        left: 20px;
+        /* Move line to side */
+    }
+
+    .journey-step,
+    .journey-step.reverse {
+        flex-direction: column;
+        gap: 40px;
+        padding-left: 50px;
+        /* Space for line */
+    }
+
+    .step-content {
+        width: 100%;
+    }
+
+    .step-number {
+        left: -60px;
+        /* Align with line */
+        top: 0;
+    }
+
+    .journey-step.reverse .step-number {
+        left: -60px;
+        right: auto;
+    }
+
+    .img-wrapper {
+        transform: none;
+    }
+
+    .journey-step.reverse .img-wrapper {
+        transform: none;
+    }
+}

@@ -1,0 +1,106 @@
+/* 3D Glassmorphic Chat Launcher */
+
+.chat-launcher-3d-wrapper {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 9999;
+}
+
+.chat-launch-btn-3d {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Added padding so the drop shadows don't clip out of the bounding box */
+  padding: 10px; 
+}
+
+.chat-launch-btn-3d:hover {
+  transform: scale(1.1) translateY(-6px);
+}
+
+/* Background Oracle Bubble */
+.bubble-back-orange {
+  position: absolute;
+  bottom: 12px;
+  right: 6px;
+  width: 58px;
+  height: 50px;
+  background: linear-gradient(135deg, #fb923c 0%, #c2410c 100%);
+  border-radius: 26px;
+  /* Intense 3D Rim Lighting via Box Shadow */
+  box-shadow: 
+    inset -4px -4px 10px rgba(0, 0, 0, 0.3), 
+    inset 4px 4px 10px rgba(255, 255, 255, 0.5),
+    0 10px 20px rgba(234, 88, 12, 0.4);
+  z-index: 1;
+}
+
+/* Tails Removed */
+.bubble-back-orange::after {
+  content: none;
+  display: none;
+}
+
+/* Foreground Frosted Glass Bubble */
+.bubble-front-glass {
+  position: absolute;
+  top: 8px;
+  left: 2px;
+  width: 66px;
+  height: 54px;
+  background: linear-gradient(135deg, rgba(230, 230, 230, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+  /* TRUE Glassmorphism that actually blurs the website behind it! */
+  backdrop-filter: blur(14px) saturate(200%);
+  -webkit-backdrop-filter: blur(14px) saturate(200%);
+  border-radius: 28px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  /* Depth & Glow */
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.25), 
+    inset 0 4px 12px rgba(255, 255, 255, 0.9),
+    inset 0 -4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Tails Removed */
+.bubble-front-glass::after {
+  content: none;
+  display: none;
+}
+
+/* Typing Dots Container */
+.inner-dots {
+  display: flex;
+  gap: 5px;
+  transform: translateY(-2px); /* Optical centering due to the oval shape */
+}
+
+/* Individual Orange Glowing Dots */
+.inner-dots .dot {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #fb923c, #ea580c);
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.7), 0 2px 6px rgba(234, 88, 12, 0.6);
+  animation: bounceDot 1.5s infinite ease-in-out;
+}
+
+/* Staggered bouncing animation */
+.inner-dots .dot:nth-child(1) { animation-delay: -0.32s; }
+.inner-dots .dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounceDot {
+  0%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+}

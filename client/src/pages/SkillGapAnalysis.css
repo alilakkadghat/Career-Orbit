@@ -1,0 +1,136 @@
+.gap-analysis-page {
+    min-height: 100vh;
+    background: var(--bg-light);
+}
+
+.stat-card-ui {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-ui .sc-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    font-weight: 700;
+}
+
+.stat-card-ui .sc-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+}
+
+.stat-card-ui .sc-icon {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 4rem;
+    opacity: 0.05;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1.5rem;
+}
+
+.skill-comparison-card {
+    padding: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.skill-name {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+}
+
+.priority-badge {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.priority-badge.danger {
+    color: #ef4444;
+}
+
+.priority-badge.warning {
+    color: #f59e0b;
+}
+
+.priority-badge.blue {
+    color: #0056D2;
+}
+
+.priority-badge.success {
+    color: #10b981;
+}
+
+.gap-badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.gap-badge.danger {
+    background: #FCE8E6;
+    color: #D93025;
+}
+
+.gap-badge.warning {
+    background: #FEF7E0;
+    color: #F29900;
+}
+
+.gap-badge.blue {
+    background: #E8F0FE;
+    color: #1967D2;
+}
+
+.gap-badge.success {
+    background: #E6F4EA;
+    color: #1E8E3E;
+}
+
+.bar-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.bar-info strong {
+    color: var(--secondary-color);
+}
+
+.proficient-tag {
+    text-align: center;
+    padding: 12px;
+    background: #E6F4EA;
+    color: #1E8E3E;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}
