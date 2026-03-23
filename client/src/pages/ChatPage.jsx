@@ -22,9 +22,17 @@ const ChatPage = () => {
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     
+    // Voice Features State
+    const [isListening, setIsListening] = useState(false);
+    const [isVoiceResponseEnabled, setIsVoiceResponseEnabled] = useState(false);
+
     const messagesEndRef = useRef(null);
     const fileInputRef = useRef(null);
     const historyRef = useRef([]);
+    const recognitionRef = useRef(null);
+    const baseInputRef = useRef(''); // Stores input value at moment recording starts
+    const shouldListenRef = useRef(false); // Track if we INTEND to listen (to handle auto-restart)
+    const latestInputRef = useRef(''); // Track latest input value for seamless restarts
 
     // Sync context resume to chat state
     useEffect(() => {
@@ -36,6 +44,162 @@ const ChatPage = () => {
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, isTyping]);
+
+    // Keep latestInputRef in sync with state for access inside closures
+    useEffect(() => {
+        latestInputRef.current = inputValue;
+    }, [inputValue]);
+
+    // --- Voice Input Logic (Dynamic Instantiation) ---
+    // We do not initialize in useEffect anymore to prevent stale instances. 
+    // Instead we create a fresh SpeechRecognition instance when the user clicks start.
+
+    const startVoiceInput = () => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert("Voice input is not supported in this browser. Please try Chrome, Edge, or Safari.");
+            return;
+        }
+
+        // 1. Cleanup previous instance if any
+        if (recognitionRef.current) {
+            try { recognitionRef.current.abort(); } catch (e) { /* ignore */ }
+        }
+
+        // 2. Create new instance
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+        recognition.maxAlternatives = 1;
+
+        // 3. Set up handlers
+        recognition.onstart = () => {
+            console.log("🎤 Voice Recognition Started");
+            setIsListening(true);
+            shouldListenRef.current = true;
+        };
+
+        recognition.onend = () => {
+            console.log("🎤 Voice Recognition Ended");
+            // Auto-restart pattern if the user didn't manually stop
+            if (shouldListenRef.current) {
+                console.log("↻ Restarting voice recognition...");
+                baseInputRef.current = latestInputRef.current;
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error("Restart failed", e);
+                    setIsListening(false);
+                    shouldListenRef.current = false;
+                }
+            } else {
+                setIsListening(false);
+            }
+        };
+
+        recognition.onresult = (event) => {
+            // Robust result handling
+            const results = Array.from(event.results);
+            const currentSessionTranscript = results
+                .map(result => result[0]?.transcript || '')
+                .join('');
+
+            // Only update if we have actual text
+            if (currentSessionTranscript) {
+                setInputValue(() => {
+                    // We always build upon the base text that existed when THIS session started
+                    // (or was updated during a restart)
+                    const base = baseInputRef.current || '';
+                    const cleanBase = base.trim();
+                    const cleanTranscript = currentSessionTranscript.trim();
+                    
+                    if (!cleanTranscript) return base;
+
+                    // Smart spacing
+                    const spacer = (cleanBase.length > 0 && !base.endsWith(' ')) ? ' ' : '';
+                    return base + spacer + cleanTranscript;
+                });
+            }
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Voice Error:", event.error);
+            if (event.error === 'not-allowed') {
+                alert("Microphone access blocked. Please allow permissions.");
+                shouldListenRef.current = false;
+                setIsListening(false);
+            } else if (event.error === 'audio-capture') {
+                alert("No microphone validation found.");
+                shouldListenRef.current = false;
+                setIsListening(false);
+            }
+            // 'no-speech' is common, we just let it restart via onend
+        };
+
+        // 4. Start
+        try {
+            // Important: Update baseInputRef to current input before we start listening
+            baseInputRef.current = inputValue; 
+            recognition.start();
+            
+            // Assign to ref for cleanup later
+            recognitionRef.current = recognition;
+        } catch (err) {
+            console.error("Failed to start speech recognition:", err);
+        }
+    };
+
+    const stopVoiceInput = () => {
+        shouldListenRef.current = false;
+        if (recognitionRef.current) {
+            recognitionRef.current.stop();
+        }
+        setIsListening(false);
+    };
+
+    const toggleListening = () => {
+        if (isListening) {
+            stopVoiceInput();
+        } else {
+            // Cancel any AI speech first
+            window.speechSynthesis.cancel();
+            startVoiceInput();
+        }
+    };
+
+    // Cleanup on unmount only
+    useEffect(() => {
+        return () => {
+            shouldListenRef.current = false;
+            if (recognitionRef.current) {
+                recognitionRef.current.abort();
+            }
+        };
+    }, []);
+
+    // --- Voice Output Logic ---
+    useEffect(() => {
+        if (isVoiceResponseEnabled && messages.length > 0) {
+            const lastMsg = messages[messages.length - 1];
+            // Only speak if it's an AI message and it was just added (checking specific ID or logic)
+            // Ideally, we cancel previous speech to avoid overlap
+            if (lastMsg.type === 'ai') {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(lastMsg.text);
+                // Optional: Select a better voice if available
+                const voices = window.speechSynthesis.getVoices();
+                // Try to find a "Google US English" or similar generic pleasant voice
+                const preferredVoice = voices.find(v => v.name.includes('Google US English')) || voices[0];
+                if (preferredVoice) utterance.voice = preferredVoice;
+                
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        } else {
+            window.speechSynthesis.cancel(); // Stop speaking if toggled off
+        }
+    }, [messages, isVoiceResponseEnabled]);
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
@@ -83,7 +247,7 @@ const ChatPage = () => {
                 });
                 const roastText = res.data?.roast || res.data?.data?.roast || "Analysis failed due to server timeout.";
                 setMessages(prev => [...prev, { id: Date.now() + 1, text: roastText, type: 'ai' }]);
-            } catch(e) {
+            } catch {
                 setMessages(prev => [...prev, { id: Date.now() + 1, text: "Server error connecting to Intelligence Matrix.", type: 'ai' }]);
             }
             setIsTyping(false);
@@ -104,6 +268,13 @@ const ChatPage = () => {
         if (e) e.preventDefault();
         const text = inputValue.trim();
         if (!text) return;
+
+        // Stop listening if user sends manual message while dictating
+        // AND turn off the auto-restart flag
+        if (shouldListenRef.current && recognitionRef.current) {
+            shouldListenRef.current = false; 
+            recognitionRef.current.stop();
+        }
 
         const userMsg = { id: Date.now(), text, type: 'user' };
         setMessages(prev => [...prev, userMsg]);
@@ -159,6 +330,19 @@ const ChatPage = () => {
                             <button className={`mode-pill ${chatMode === 'salary_negotiator' ? 'active' : ''}`} onClick={() => handleModeSelect('salary_negotiator')}>Salary Negotiation</button>
                             <button className={`mode-pill ${chatMode === 'resume_roast' ? 'active' : ''}`} onClick={() => handleModeSelect('resume_roast')}>Roast</button>
                         </div>
+                        
+                        {/* Voice Output Toggle (Top Right) */}
+                        <button 
+                            className={`voice-toggle-top-btn ${isVoiceResponseEnabled ? 'active' : ''}`}
+                            onClick={() => setIsVoiceResponseEnabled(!isVoiceResponseEnabled)}
+                            title={isVoiceResponseEnabled ? "Mute AI Voice" : "Enable AI Voice Response"}
+                        >
+                            {isVoiceResponseEnabled ? (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            ) : (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                            )}
+                        </button>
                     </header>
 
                     {/* Chat Scroll Area */}
@@ -240,12 +424,22 @@ const ChatPage = () => {
                             <input
                                 type="text"
                                 className="chat-text-input"
-                                placeholder={chatMode === 'mock_interview' ? "Answer the interviewer..." : "Message Orbit AI..."}
+                                placeholder={isListening ? "Listening..." : (chatMode === 'mock_interview' ? "Answer the interviewer..." : "Message Orbit AI...")}
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                             />
 
-                            <button type="submit" className={`chat-send-btn ${inputValue.trim() ? 'active' : ''}`}>
+                            {/* New Voice Input Button (Transcribe) */}
+                            <button 
+                                type="button" 
+                                className={`chat-mic-btn ${isListening ? 'listening' : ''}`}
+                                onClick={toggleListening}
+                                title="Voice Input"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                            </button>
+
+                            <button type="button" className={`chat-send-btn ${inputValue.trim() ? 'active' : ''}`} onClick={handleSend}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                             </button>
                         </form>

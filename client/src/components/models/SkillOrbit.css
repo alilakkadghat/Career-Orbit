@@ -1,0 +1,158 @@
+.solar-system-container {
+    position: relative;
+    width: 100%;
+    height: 850px;
+    background: radial-gradient(ellipse at bottom, #110d1f 0%, #05000a 100%);
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: insert 0 0 100px rgba(0, 0, 0, 0.8), 0 0 50px rgba(75, 0, 130, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Background Stars */
+.solar-system-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+        radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.6), rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 150px 150px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 300px 90px, rgba(255,255,255,0.7), rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    opacity: 0.3;
+}
+
+.solar-system {
+    position: relative;
+    width: 800px;
+    height: 800px;
+    transform: scale(1.3);
+}
+
+@keyframes pulse-core {
+    0% {
+        box-shadow: 0 0 30px rgba(255, 140, 0, 0.6), 0 0 60px rgba(255, 69, 0, 0.4);
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(255, 140, 0, 0.9), 0 0 100px rgba(255, 69, 0, 0.6);
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+    100% {
+        box-shadow: 0 0 30px rgba(255, 140, 0, 0.6), 0 0 60px rgba(255, 69, 0, 0.4);
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.sun {
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle at 30% 30%, #fffbd2, #ff8c00, #b32a00);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 215, 0, 0.5);
+    animation: pulse-core 3s infinite ease-in-out;
+}
+
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.01);
+}
+
+.planet {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: inset -5px -5px 12px rgba(0, 0, 0, 0.5), 0 0 15px var(--planet-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 5;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.planet:hover {
+    transform: translate(-50%, -50%) scale(1.6);
+    box-shadow: inset -2px -2px 10px rgba(0, 0, 0, 0.3), 0 0 30px var(--planet-color);
+    z-index: 15;
+}
+
+.planet-name-label {
+    position: absolute;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    white-space: nowrap;
+    opacity: 0.8;
+}
+
+.planet:hover + .planet-name-label {
+    color: #fff;
+    opacity: 1;
+    text-shadow: 0 0 8px var(--planet-color);
+}
+
+.planet-info-card {
+    position: absolute;
+    background: rgba(15, 15, 25, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    padding: 18px 22px;
+    border-radius: 12px;
+    color: white;
+    width: 220px;
+    pointer-events: none;
+    z-index: 20;
+    transform: translateY(10px);
+    animation: fade-in 0.2s ease-out forwards;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(5px); }
+}
+
+.planet-info-card h5 {
+    margin: 0 0 8px 0;
+    color: var(--planet-color, #ff8c00);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.planet-info-card p {
+    margin: 0;
+    font-size: 13px;
+    color: #b0a8ba;
+    line-height: 1.4;
+}

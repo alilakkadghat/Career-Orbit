@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import AnimatedLogo from './AnimatedLogo';
 import LanguageSelector from './LanguageSelector';
 import './Navbar.css';
 
@@ -127,7 +126,6 @@ const Navbar = () => {
       <aside className="global-sidebar">
         <div className="global-sidebar-header">
            <Link to="/" className="sidebar-brand-logo">
-             <AnimatedLogo />
              <span className="logo-text">CareerOrbit</span>
            </Link>
         </div>

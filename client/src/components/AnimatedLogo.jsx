@@ -2,8 +2,8 @@ import React from 'react';
 
 const AnimatedLogo = () => {
     return (
-        <div className="orbit-logo-container" style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="orbit-logo-container" style={{ width: 80, height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scale(1.2)' }}>
                 <defs>
                     <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
                         <stop offset="0%" style={{ stopColor: 'var(--primary-color, #ff6b00)', stopOpacity: 0.8 }} />

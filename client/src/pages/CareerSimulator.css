@@ -1,5 +1,5 @@
 .simulator-page {
-    background: linear-gradient(135deg, #f0f2f5 0%, #d9e2ec 100%);
+    background: var(--bg-main);
     min-height: 100vh;
 }
 
@@ -13,15 +13,17 @@
 /* Controls */
 .sim-controls {
     padding: 30px;
-    background: var(--bg-white);
-    box-shadow: var(--shadow-lg);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
 }
 
 .sim-title {
     margin-bottom: 24px;
     font-size: 1.25rem;
-    color: var(--secondary-color);
+    color: #fff;
 }
 
 .control-group {
@@ -34,7 +36,7 @@
     font-weight: 600;
     margin-bottom: 8px;
     font-size: 0.95rem;
-    color: var(--text-main);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .highlight-val {
@@ -44,7 +46,8 @@
 
 .path-toggle {
     display: flex;
-    background: var(--bg-light);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 4px;
     border-radius: 8px;
 }
@@ -55,13 +58,17 @@
     font-size: 0.85rem;
     font-weight: 600;
     border-radius: 6px;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.6);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .toggle-btn.active {
-    background: var(--bg-white);
+    background: rgba(255, 255, 255, 0.1);
     color: var(--primary-color);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .input-range {
@@ -72,7 +79,9 @@
 .select-input {
     width: 100%;
     padding: 10px;
-    border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
     border-radius: 8px;
     font-size: 0.95rem;
 }
@@ -80,7 +89,7 @@
 .impact-summary {
     margin-top: 32px;
     padding-top: 24px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .impact-item {
@@ -88,6 +97,7 @@
     justify-content: space-between;
     margin-bottom: 12px;
     font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .impact-item.positive strong {
@@ -107,8 +117,11 @@
 
 .visual-card {
     padding: 24px;
-    background: var(--bg-white);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
 }
 
 .card-header {
@@ -120,6 +133,7 @@
 
 .card-header h3 {
     font-size: 1.2rem;
+    color: #fff;
 }
 
 .badge {
@@ -140,13 +154,17 @@
 .risk-card,
 .volatility-card {
     padding: 24px;
-    background: var(--bg-white);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
 }
 
 .risk-legend {
     margin-top: 10px;
     font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .legend-item {

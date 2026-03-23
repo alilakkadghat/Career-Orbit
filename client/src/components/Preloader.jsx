@@ -6,8 +6,8 @@ const Preloader = () => {
         <div className="preloader-container">
             <div className="preloader-content">
                 <div className="orbit-spinner">
-                    <div className="orbit orbit-1"></div>
-                    <div className="orbit orbit-2"></div>
+                    <div className="preloader-orbit orbit-1"></div>
+                    <div className="preloader-orbit orbit-2"></div>
                     <div className="center-dot"></div>
                 </div>
                 <h2 className="loading-text">CareerOrbit AI</h2>

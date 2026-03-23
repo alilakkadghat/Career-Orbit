@@ -1,267 +1,113 @@
-import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import {
-    OrbitControls,
-    Stars,
-    Sparkles,
-    Text,
-    Float,
-    MeshDistortMaterial,
-    MeshWobbleMaterial,
-    ContactShadows,
-    Environment
-} from '@react-three/drei';
-import * as THREE from 'three';
+import React, { useEffect, useRef, useState } from 'react';
+import './SkillOrbit.css';
 
-const planets = [
-    { name: 'Python', color: '#3776AB', distance: 6, speed: 0.4, size: 0.5, hasRing: false, emissive: '#1e3c5a' },
-    { name: 'React', color: '#61DAFB', distance: 9, speed: 0.25, size: 0.7, hasRing: true, emissive: '#2d6a7a' },
-    { name: 'AI Models', color: '#FF6E14', distance: 13, speed: 0.15, size: 0.9, hasRing: false, emissive: '#b34d0e' },
-    { name: 'Cloud', color: '#0056D2', distance: 17, speed: 0.1, size: 0.8, hasRing: true, emissive: '#003a8c' },
-    { name: 'DevOps', color: '#2496ED', distance: 21, speed: 0.07, size: 0.6, hasRing: false, emissive: '#114a75' },
-    { name: 'UI/UX', color: '#F24E1E', distance: 25, speed: 0.05, size: 0.55, hasRing: true, emissive: '#a13514' },
+const planetsData = [
+    { id: 'python', name: 'Python', color1: '#3776AB', color2: '#1e3c5a', orbitWidth: 230, orbitHeight: 150, orbitTime: 10, info: 'Core language for AI/ML and Data Science' },
+    { id: 'react', name: 'React', color1: '#61DAFB', color2: '#2d6a7a', orbitWidth: 290, orbitHeight: 210, orbitTime: 20, info: 'Modern frontend library for UI development' },
+    { id: 'ai', name: 'AI Models', color1: '#FF6E14', color2: '#b34d0e', orbitWidth: 350, orbitHeight: 270, orbitTime: 30, info: 'Neural networks, LLMs, and predictive analytics' },
+    { id: 'cloud', name: 'Cloud', color1: '#0056D2', color2: '#003a8c', orbitWidth: 410, orbitHeight: 330, orbitTime: 40, info: 'Scalable infrastructure on AWS, Azure, GCP' },
+    { id: 'devops', name: 'DevOps', color1: '#2496ED', color2: '#114a75', orbitWidth: 470, orbitHeight: 390, orbitTime: 50, info: 'CI/CD pipelines, Docker, and Kubernetes' },
+    { id: 'uiux', name: 'UI/UX', color1: '#F24E1E', color2: '#a13514', orbitWidth: 530, orbitHeight: 450, orbitTime: 60, info: 'User Experience and Interface Design' },
 ];
 
-const Nebula = () => {
-    return (
-        <group>
-            <mesh scale={[100, 100, 100]}>
-                <sphereGeometry args={[1, 32, 32]} />
-                <meshBasicMaterial color="#05000a" side={THREE.BackSide} />
-            </mesh>
-            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-            <Sparkles count={200} scale={50} size={2} speed={0.2} color="#4b0082" />
-            <Sparkles count={100} scale={60} size={3} speed={0.1} color="#ff8c00" opacity={0.3} />
-        </group>
-    );
-};
-
-function Planet({ data }) {
-    const ref = useRef();
-    const { name, color, distance, speed, size, hasRing, emissive } = data;
-
-    // Create an elliptical path
-    const ellipsePath = useMemo(() => {
-        const xRadius = distance;
-        const yRadius = distance * 0.85; // Slightly less elliptical for better visibility
-        const curve = new THREE.EllipseCurve(0, 0, xRadius, yRadius, 0, 2 * Math.PI, false, 0);
-        const points = curve.getPoints(128).map(p => new THREE.Vector3(p.x, 0, p.y));
-        return { curve, points };
-    }, [distance]);
-
-    const [randomValues] = React.useState(() => ({
-        initialAngle: Math.random() * Math.PI * 2,
-        tilt: (Math.random() - 0.5) * 0.3
-    }));
-
-    const { initialAngle, tilt } = randomValues;
-
-    useFrame(({ clock }) => {
-        // Higher resolution time for smoother motion
-        const t = (clock.getElapsedTime() * speed * 0.5 + initialAngle) % 1;
-        const point = ellipsePath.curve.getPoint(t);
-        if (ref.current) {
-            ref.current.position.set(point.x, Math.sin(clock.getElapsedTime() * 0.4) * 0.15, point.y);
-            ref.current.rotation.y += 0.01;
-        }
-    });
-
-    return (
-        <group rotation={[tilt, 0, tilt]}>
-            {/* Primary Glowing Orbit Line */}
-            <line>
-                <bufferGeometry attach="geometry">
-                    <float32BufferAttribute
-                        attach="attributes-position"
-                        args={[new Float32Array(ellipsePath.points.flatMap(p => [p.x, p.y, p.z])), 3]}
-                    />
-                </bufferGeometry>
-                <lineBasicMaterial
-                    attach="material"
-                    color={color}
-                    transparent
-                    opacity={0.4}
-                    linewidth={2}
-                    blending={THREE.AdditiveBlending}
-                />
-            </line>
-
-            {/* Subtle Bloom Layer for Orbit */}
-            <line scale={[1.02, 1, 1.02]}>
-                <bufferGeometry attach="geometry">
-                    <float32BufferAttribute
-                        attach="attributes-position"
-                        args={[new Float32Array(ellipsePath.points.flatMap(p => [p.x, p.y, p.z])), 3]}
-                    />
-                </bufferGeometry>
-                <lineBasicMaterial
-                    attach="material"
-                    color={color}
-                    transparent
-                    opacity={0.15}
-                    linewidth={5}
-                    blending={THREE.AdditiveBlending}
-                />
-            </line>
-
-            <group ref={ref}>
-                {/* Planet Body */}
-                <mesh>
-                    <sphereGeometry args={[size, 64, 64]} />
-                    <meshStandardMaterial
-                        color={color}
-                        emissive={emissive}
-                        emissiveIntensity={2.5}
-                        metalness={0.9}
-                        roughness={0.05}
-                    />
-                </mesh>
-
-                {/* Atmospheric Glow */}
-                <mesh scale={[1.25, 1.25, 1.25]}>
-                    <sphereGeometry args={[size, 32, 32]} />
-                    <meshBasicMaterial
-                        color={color}
-                        transparent
-                        opacity={0.15}
-                        side={THREE.BackSide}
-                        blending={THREE.AdditiveBlending}
-                    />
-                </mesh>
-
-                {hasRing && (
-                    <mesh rotation={[Math.PI / 2.5, 0, 0]}>
-                        <ringGeometry args={[size * 1.5, size * 2.4, 64]} />
-                        <meshStandardMaterial
-                            color={color}
-                            transparent
-                            opacity={0.4}
-                            side={THREE.DoubleSide}
-                            emissive={color}
-                            emissiveIntensity={1}
-                            blending={THREE.AdditiveBlending}
-                        />
-                    </mesh>
-                )}
-
-                <Text
-                    position={[0, size + 1, 0]}
-                    fontSize={0.45}
-                    fontWeight="bold"
-                    color="white"
-                    anchorX="center"
-                    anchorY="middle"
-                >
-                    {name}
-                </Text>
-            </group>
-        </group>
-    );
-}
-
-function Sun() {
-    const sunRef = useRef();
-    const coronaRef = useRef();
-
-    useFrame(({ clock }) => {
-        const t = clock.getElapsedTime();
-        if (sunRef.current) {
-            const s = 1 + Math.sin(t * 1.2) * 0.04;
-            sunRef.current.scale.set(s, s, s);
-            sunRef.current.rotation.y += 0.003;
-        }
-        if (coronaRef.current) {
-            coronaRef.current.rotation.z -= 0.001;
-            coronaRef.current.scale.setScalar(1.15 + Math.sin(t * 1.8) * 0.06);
-        }
-    });
-
-    return (
-        <group>
-            <mesh ref={sunRef}>
-                <sphereGeometry args={[3.8, 128, 128]} />
-                <MeshDistortMaterial
-                    color="#FF8C00"
-                    speed={3.5}
-                    distort={0.45}
-                    radius={1}
-                    emissive="#FF4500"
-                    emissiveIntensity={6}
-                />
-            </mesh>
-
-            <mesh ref={coronaRef}>
-                <sphereGeometry args={[4.2, 64, 64]} />
-                <meshBasicMaterial
-                    color="#FFD700"
-                    transparent
-                    opacity={0.25}
-                    side={THREE.BackSide}
-                    blending={THREE.AdditiveBlending}
-                />
-            </mesh>
-
-            <pointLight intensity={15} distance={100} color="#FF6E14" />
-            <pointLight position={[0, 0, 0]} intensity={60} distance={15} color="#FFD700" />
-            <pointLight position={[10, 10, 10]} intensity={5} color="#4b0082" /> {/* Subtle blue/purple fill */}
-
-            <Sparkles count={150} scale={10} size={6} speed={0.4} color="#FFD700" />
-            <Sparkles count={80} scale={15} size={3} speed={0.6} color="#FF4136" />
-        </group>
-    );
-}
-
 const SkillOrbit = () => {
+    const [hoverInfo, setHoverInfo] = useState({ visible: false, x: 0, y: 0, name: '', details: '' });
+    const requestRef = useRef();
+    const anglesRef = useRef(planetsData.map(() => 0));
+    
+    const animate = () => {
+        anglesRef.current = anglesRef.current.map((angle, i) => {
+            const planet = planetsData[i];
+            const newAngle = angle + (360 / planet.orbitTime / 60);
+            
+            const element = document.getElementById(`planet-${planet.id}`);
+            const label = document.getElementById(`label-${planet.id}`);
+            
+            if (element && label) {
+                const radians = newAngle * (Math.PI / 180);
+                const x = (planet.orbitWidth / 2) * Math.cos(radians);
+                const y = (planet.orbitHeight / 2) * Math.sin(radians);
+                
+                element.style.left = `calc(50% + ${x}px)`;
+                element.style.top = `calc(50% + ${y}px)`;
+                
+                label.style.left = `calc(50% + ${x}px)`;
+                label.style.top = `calc(50% + ${y + 20}px)`;
+            }
+            
+            return newAngle;
+        });
+        
+        requestRef.current = requestAnimationFrame(animate);
+    };
+
+    useEffect(() => {
+        requestRef.current = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(requestRef.current);
+    }, []);
+
+    const handleMouseOver = (e, planet) => {
+        const rect = e.target.getBoundingClientRect();
+        const parentRect = e.target.closest('.solar-system-container').getBoundingClientRect();
+        
+        setHoverInfo({
+            visible: true,
+            x: rect.left - parentRect.left + 20,
+            y: rect.top - parentRect.top + 20,
+            name: planet.name,
+            details: planet.info,
+            color: planet.color1
+        });
+    };
+
+    const handleMouseOut = () => {
+        setHoverInfo({ ...hoverInfo, visible: false });
+    };
+
     return (
-        <div style={{
-            width: '100%',
-            height: '850px',
-            background: 'radial-gradient(circle at center, #080010 0%, #000 100%)',
-            borderRadius: '60px',
-            overflow: 'hidden',
-            boxShadow: '0 0 150px rgba(75, 0, 130, 0.15)',
-            position: 'relative',
-            border: '2px solid rgba(255, 255, 255, 0.03)'
-        }}>
-            <Canvas
-                camera={{ position: [0, 30, 50], fov: 40 }}
-                gl={{
-                    antialias: true,
-                    toneMapping: THREE.ACESFilmicToneMapping,
-                    powerPreference: "high-performance"
-                }}
-                shadows
-            >
+        <div className="solar-system-container">
+            <div className="solar-system">
+                {/* Sun */}
+                <div className="sun">Core</div>
 
-                <Nebula />
-
-                <ambientLight intensity={0.3} />
-
-                <Float speed={1.2} rotationIntensity={0.1} floatIntensity={0.3}>
-                    <Sun />
-                </Float>
-
-                {planets.map((p, i) => (
-                    <Planet key={i} data={p} />
+                {/* Orbits & Planets */}
+                {planetsData.map((planet) => (
+                    <div key={planet.id}>
+                        <div 
+                            className="orbit" 
+                            style={{ width: `${planet.orbitWidth}px`, height: `${planet.orbitHeight}px` }} 
+                        />
+                        <div 
+                            id={`planet-${planet.id}`}
+                            className="planet"
+                            style={{ 
+                                background: `radial-gradient(circle at 30% 30%, ${planet.color1}, ${planet.color2})`,
+                                '--planet-color': planet.color1 
+                            }}
+                            onMouseOver={(e) => handleMouseOver(e, planet)}
+                            onMouseOut={handleMouseOut}
+                        />
+                        <div 
+                            id={`label-${planet.id}`}
+                            className="planet-name-label"
+                            style={{ transform: 'translate(-50%, -50%)', '--planet-color': planet.color1 }}
+                        >
+                            {planet.name}
+                        </div>
+                    </div>
                 ))}
+            </div>
 
-                <ContactShadows
-                    opacity={0.3}
-                    scale={60}
-                    blur={2.5}
-                    far={25}
-                    resolution={512}
-                    color="#000000"
-                />
-
-                <OrbitControls
-                    enableZoom={false}
-                    maxPolarAngle={Math.PI / 1.7}
-                    minPolarAngle={Math.PI / 6}
-                    autoRotate
-                    autoRotateSpeed={0.2}
-                />
-            </Canvas>
+            {/* Hover Info Card */}
+            {hoverInfo.visible && (
+                <div 
+                    className="planet-info-card"
+                    style={{ left: hoverInfo.x, top: hoverInfo.y }}
+                >
+                    <h5 style={{ color: hoverInfo.color }}>{hoverInfo.name}</h5>
+                    <p>{hoverInfo.details}</p>
+                </div>
+            )}
 
             <div style={{
                 position: 'absolute',

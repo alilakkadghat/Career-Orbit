@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import heroImage from '../assets/image.png';
+import AnimatedLogo from './AnimatedLogo';
 import './Hero.css';
 
 const Hero = () => {
     return (
         <section className="hero section-padding">
-            <div className="container hero-content">
+            <div className="container hero-content" style={{ position: 'relative' }}>
+                <div style={{ position: 'absolute', top: '-110px', left: '-80px', zIndex: 10 }}>
+                    <AnimatedLogo />
+                </div>
                 <div className="hero-text">
                     <h1 className="hero-title">
                         Master Your Career Trajectory <span className="highlight">in the AI Era</span>
