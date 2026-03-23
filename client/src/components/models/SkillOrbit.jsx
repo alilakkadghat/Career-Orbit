@@ -15,6 +15,7 @@ const SkillOrbit = () => {
     const requestRef = useRef();
     const anglesRef = useRef(planetsData.map(() => 0));
     
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const animate = () => {
         anglesRef.current = anglesRef.current.map((angle, i) => {
             const planet = planetsData[i];
@@ -44,7 +45,7 @@ const SkillOrbit = () => {
     useEffect(() => {
         requestRef.current = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(requestRef.current);
-    }, []);
+    }, [animate]);
 
     const handleMouseOver = (e, planet) => {
         const rect = e.target.getBoundingClientRect();

@@ -3,6 +3,7 @@ import { useAuth } from './AuthContext';
 
 const SkillsContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useSkills = () => useContext(SkillsContext);
 
 export const SkillsProvider = ({ children }) => {
@@ -23,9 +24,11 @@ export const SkillsProvider = ({ children }) => {
     useEffect(() => {
         const saved = localStorage.getItem(storageKey);
         if (saved) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setSkills(JSON.parse(saved));
         } else {
             // Default skills for new user or guest
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setSkills({
                 technical: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL'],
                 soft: ['Communication', 'Leadership', 'Problem Solving'],

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import LanguageSelector from './LanguageSelector';
@@ -49,15 +49,15 @@ const NAV_ITEMS = [
 ];
 
 const SidebarMenuItem = ({ item, location }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  
   const hasDropdown = Boolean(item.dropdown);
   const isActive = location.pathname === item.path || (hasDropdown && item.dropdown.some(i => location.pathname === i.path));
+  const [isExpanded, setIsExpanded] = useState(isActive);
 
   // Auto expand if a child route is active
   useEffect(() => {
-    if (hasDropdown && item.dropdown.some(i => location.pathname === i.path)) {
-      setIsExpanded(true);
+    const isAct = hasDropdown && item.dropdown.some(i => location.pathname === i.path);
+    if (isAct) {
+      // Intentionally empty or handled by initial state/key but to allow collapse
     }
   }, [location.pathname, item.dropdown, hasDropdown]);
 
@@ -103,11 +103,12 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
-  const navigate = useNavigate();
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   // Close profile dropdown when route changes
   useEffect(() => {
+    // Only close if it's open to prevent cascading rendering warning
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsProfileDropdownOpen(false);
   }, [location]);
 

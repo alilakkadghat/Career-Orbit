@@ -173,7 +173,7 @@ const ChatPage = () => {
         return () => {
             shouldListenRef.current = false;
             if (recognitionRef.current) {
-                recognitionRef.current.abort();
+                try { recognitionRef.current.abort(); } catch (e) { /* ignore */ }
             }
         };
     }, []);
