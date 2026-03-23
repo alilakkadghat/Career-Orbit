@@ -63,7 +63,7 @@ const ChatPage = () => {
 
         // 1. Cleanup previous instance if any
         if (recognitionRef.current) {
-            try { recognitionRef.current.abort(); } catch (e) { /* ignore */ }
+            try { recognitionRef.current.abort(); } catch { /* ignore */ }
         }
 
         // 2. Create new instance
@@ -173,7 +173,7 @@ const ChatPage = () => {
         return () => {
             shouldListenRef.current = false;
             if (recognitionRef.current) {
-                try { recognitionRef.current.abort(); } catch (e) { /* ignore */ }
+                try { recognitionRef.current.abort(); } catch { /* ignore */ }
             }
         };
     }, []);
