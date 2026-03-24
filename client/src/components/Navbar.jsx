@@ -20,7 +20,8 @@ const NAV_ITEMS = [
       { label: 'Role Recommendations', path: '/career/recommendations' },
       { label: 'Career Timeline', path: '/career/timeline' },
       { label: 'Sector Transitions', path: '/career/transitions' },
-      { label: 'Career Simulator', path: '/career/simulator' }
+      { label: 'Career Simulator', path: '/career/simulator' },
+      { label: 'Career Comparison', path: '/career/comparison' }
     ]
   },
   {

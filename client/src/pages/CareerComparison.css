@@ -1,0 +1,183 @@
+.career-comparison-page {
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: var(--bg-color, #0b090f);
+    color: var(--text-color, #ffffff);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism theme wrapper */
+.career-comparison-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    background: rgba(25, 20, 30, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 107, 0, 0.2);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: inset 0 0 20px rgba(255, 107, 0, 0.05), 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.tree-container {
+    width: 100%;
+    min-height: 700px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    overflow: auto;
+}
+
+/* SVG Paths */
+.tree-svg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tree-path {
+    fill: none;
+    stroke: rgba(255, 107, 0, 0.3);
+    stroke-width: 3px;
+    filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6));
+    stroke-dasharray: 8 4;
+    animation: flowDash 30s linear infinite;
+}
+
+@keyframes flowDash {
+    to { stroke-dashoffset: -1000; }
+}
+
+/* Nodes Wrapper */
+.tree-nodes-layer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 4rem;
+}
+
+.tree-level {
+    display: flex;
+    gap: 6rem;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Glass Node Styling */
+.tree-node {
+    background: rgba(25, 20, 30, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 107, 0, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    min-width: 260px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 0 0 15px rgba(255, 107, 0, 0.1), 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tree-node:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: inset 0 0 25px rgba(255, 107, 0, 0.3), 0 10px 30px rgba(255, 107, 0, 0.2);
+    border-color: rgba(255, 107, 0, 0.6);
+}
+
+.tree-node::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.6) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.tree-node:hover::before {
+    opacity: 0.2;
+}
+
+.node-title {
+    color: #ff6b00;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+}
+
+.node-salary {
+    color: #a0a0b0;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.node-demand {
+    font-size: 0.85rem;
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.node-demand.high { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border-color: rgba(46, 204, 113, 0.3); }
+.node-demand.medium { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border-color: rgba(241, 196, 15, 0.3); }
+
+/* Ambient background effect */
+.ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.glow-1 {
+    top: 10%;
+    left: 10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 107, 0, 0.15);
+}
+
+.glow-2 {
+    bottom: -10%;
+    right: 10%;
+    width: 600px;
+    height: 600px;
+    background: rgba(138, 43, 226, 0.1);
+}
+
+@media (max-width: 900px) {
+    .tree-level {
+        flex-direction: column;
+        gap: 3rem;
+        align-items: center;
+    }
+    .tree-node {
+        min-width: 220px;
+    }
+    .tree-path {
+        display: none; /* Simplification for mobile view */
+    }
+}
