@@ -36,7 +36,7 @@ const ProblemStatement = () => {
 
             <main className="problem-page">
                 <PageHeader
-                    title="The Skill Crisis"
+                    title="Problem Statement"
                     subtitle="Mapping the seismic shifts in the global labor market."
                     badge="Impact Thesis"
                     className="problem-header"

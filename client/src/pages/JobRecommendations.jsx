@@ -305,7 +305,7 @@ const JobRecommendations = () => {
 
             <main className="jobs-page">
                 <PageHeader
-                    title="AI Placement Hub"
+                    title="Job Recommendations"
                     subtitle="Smart job recommendations matched to your skills, experience, and career goals."
                     badge="Placement Intelligence"
                 />

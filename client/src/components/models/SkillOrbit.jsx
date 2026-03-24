@@ -19,7 +19,8 @@ const SkillOrbit = () => {
     const animate = () => {
         anglesRef.current = anglesRef.current.map((angle, i) => {
             const planet = planetsData[i];
-            const newAngle = angle + (360 / planet.orbitTime / 60);
+            // Increase speed by 50% by multiplying the angle increment by 1.5
+            const newAngle = angle + ((360 / planet.orbitTime / 60) * 1.5);
             
             const element = document.getElementById(`planet-${planet.id}`);
             const label = document.getElementById(`label-${planet.id}`);

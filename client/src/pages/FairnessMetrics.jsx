@@ -112,7 +112,7 @@ const FairnessMetrics = () => {
 
             <main className="fairness-page">
                 <PageHeader
-                    title="Platform Equity Audit"
+                    title="Fairness Metrics"
                     subtitle="Quantifying our commitment to radical transparency and equal opportunity access."
                     badge="Integrity 2.0"
                     gradient="black"

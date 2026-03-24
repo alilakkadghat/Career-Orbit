@@ -44,7 +44,7 @@ const SkillGapAnalysis = () => {
 
             <main className="gap-analysis-page">
                 <PageHeader
-                    title="Skill Gap Analytics"
+                    title="Skill Gap Analysis"
                     subtitle={`Precision diagnostics for your transition to: ${targetRole}`}
                     badge="Intelligence"
                 />

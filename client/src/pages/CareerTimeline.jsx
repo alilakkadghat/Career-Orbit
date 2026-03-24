@@ -95,7 +95,7 @@ const CareerTimeline = () => {
 
             <main className="timeline-page">
                 <PageHeader
-                    title="Career Trajectory Map"
+                    title="Career Timeline"
                     subtitle="A visual roadmap of your professional evolution over the next 24 months."
                     badge="Your Journey"
                 />

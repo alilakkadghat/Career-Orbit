@@ -100,7 +100,7 @@ const RecommendedCourses = () => {
 
             <main className="courses-page">
                 <PageHeader
-                    title="Curated Learning Paths"
+                    title="Recommended Courses"
                     subtitle="High-impact resources selected by AI to close your specific gaps in record time."
                     badge="Academy"
                 />

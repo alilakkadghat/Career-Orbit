@@ -80,7 +80,7 @@ const RoleRecommendations = () => {
 
             <main className="recommendations-page">
                 <PageHeader
-                    title="Pathfinder Recommendations"
+                    title="Role Recommendations"
                     subtitle="Our AI has mapped your DNA to these high-growth opportunities. Select a role to view the roadmap."
                     badge="Career Intelligence"
                 />

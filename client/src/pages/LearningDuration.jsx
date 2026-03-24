@@ -69,7 +69,7 @@ const LearningDuration = () => {
 
             <main className="duration-page">
                 <PageHeader
-                    title="Study Velocity Engine"
+                    title="Learning Duration"
                     subtitle="Tune your weekly commitment and see exactly how your path to mastery unfolds."
                     badge="Time Planning"
                 />

@@ -136,7 +136,7 @@ const SkillDecay = () => {
 
             <main className="decay-page">
                 <PageHeader
-                    title="Contextual Skill Half-Life"
+                    title="Skill Decay"
                     subtitle="Visualize how your technical expertise decays differently across specific industries and roles."
                     badge="Market Intelligence"
                     gradient="dark"

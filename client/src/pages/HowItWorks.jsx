@@ -36,7 +36,7 @@ const HowItWorks = () => {
 
             <main className="how-it-works-page">
                 <PageHeader
-                    title="Your Orbit to Success"
+                    title="Our Solution"
                     subtitle="How we turn career ambiguity into a calculated growth path with AI precision."
                     badge="The Process"
                 />

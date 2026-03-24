@@ -103,7 +103,7 @@ const SkillDemandTrends = () => {
             <Navbar />
             <main className="trends-page">
                 <PageHeader
-                    title="Market Demand Trends"
+                    title="Skill Demand Trends"
                     subtitle="See which skills are accelerating, stabilizing, or fading in the market."
                     badge="Live Market Data"
                 />

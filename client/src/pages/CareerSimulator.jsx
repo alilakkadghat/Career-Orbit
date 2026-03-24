@@ -49,7 +49,7 @@ const CareerSimulator = () => {
             <Navbar />
             <main className="simulator-page">
                 <PageHeader
-                    title="Career Simulation & Forecasting"
+                    title="Career Simulator"
                     subtitle="Run 'What-If' scenarios to predict the impact of skill acquisition and AI displacement."
                     badge="AI Powered"
                 />

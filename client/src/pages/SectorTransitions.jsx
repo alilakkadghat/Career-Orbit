@@ -79,7 +79,7 @@ const SectorTransitions = () => {
 
             <main className="transitions-page">
                 <PageHeader
-                    title="Cross-Sector Mobility"
+                    title="Sector Transitions"
                     subtitle="Discover how your current skills unlock high-growth roles in diverging industries."
                     badge="Career Exploration"
                 />
