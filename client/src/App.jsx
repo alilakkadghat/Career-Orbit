@@ -37,7 +37,6 @@ import LearningDuration from './pages/LearningDuration';
 // Dashboard Pages
 import SkillDemandTrends from './pages/SkillDemandTrends';
 import SkillDecay from './pages/SkillDecay';
-import FairnessMetrics from './pages/FairnessMetrics';
 
 // Placement Pages
 import JobRecommendations from './pages/JobRecommendations';
@@ -115,7 +114,6 @@ function App() {
 
                       <Route path="/dashboard/trends" element={<ProtectedRoute><SkillDemandTrends /></ProtectedRoute>} />
                       <Route path="/dashboard/decay" element={<ProtectedRoute><SkillDecay /></ProtectedRoute>} />
-                      <Route path="/dashboard/fairness" element={<ProtectedRoute><FairnessMetrics /></ProtectedRoute>} />
 
                       <Route path="/stipend" element={<ProtectedRoute><StipendBenchmark /></ProtectedRoute>} />
                       <Route path="/resume/roast" element={<ProtectedRoute><ResumeRoast /></ProtectedRoute>} />

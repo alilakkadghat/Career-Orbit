@@ -1,8 +1,9 @@
 .trends-page {
     min-height: 100vh;
-    background: linear-gradient(135deg, var(--bg-light) 0%, #f8fafc 100%);
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-white) 100%);
     position: relative;
     overflow-x: hidden;
+    transition: background 0.3s ease;
 }
 
 .trends-page::before {
@@ -52,11 +53,11 @@
 
 .glass-card {
     background: var(--glass-bg);
-    backdrop-filter: blur(18px);
+    backdrop-filter: var(--glass-blur);
     border-radius: 18px;
     padding: var(--card-padding);
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--glass-border);
 }
 
 /* Macro chart (very simple, non-overlapping) */
@@ -166,6 +167,11 @@
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .tab-btn {
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .tab-btn:hover {
@@ -242,7 +248,7 @@
     font-size: 1.2rem;
     font-weight: 800;
     margin: 0;
-    background: linear-gradient(135deg, var(--text-primary), #60a5fa);
+    background: linear-gradient(135deg, var(--text-main), #60a5fa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -390,7 +396,7 @@
     font-weight: 800;
 }
 
-.section-subtitle {
+.section-header .section-subtitle {
     font-size: 0.9rem;
     color: var(--text-secondary);
     margin-top: 0.25rem;
@@ -473,7 +479,7 @@
 
 .ci-bar {
     height: 8px;
-    background: rgba(255, 255, 255, 0.85);
+    background: var(--border-color);
     border-radius: 999px;
     overflow: hidden;
 }

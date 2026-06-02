@@ -8,7 +8,4 @@ router.get("/trends", dashboardController.getTrends);
 // @route GET /api/dashboard/decay
 router.get("/decay", dashboardController.getDecay);
 
-// @route GET /api/dashboard/fairness
-router.get("/fairness", dashboardController.getFairness);
-
 module.exports = router;

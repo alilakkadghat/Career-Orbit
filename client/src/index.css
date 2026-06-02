@@ -59,6 +59,7 @@
   --text-light: #A0A0A0;
   --border-color: #333333;
   --secondary-color: #FFFFFF;
+  --secondary-rgb: 255, 255, 255;
 
   --glass-bg: rgba(18, 18, 18, 0.25);
   --glass-border: rgba(255, 255, 255, 0.12);

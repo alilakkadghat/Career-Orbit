@@ -46,6 +46,14 @@
     height: auto;
 }
 
+[data-theme="dark"] .decay-insight-card {
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.65), rgba(18, 18, 18, 0.35));
+}
+
+.border-top {
+    border-top: 1px solid var(--border-color);
+}
+
 .decay-insight-card::before {
     content: '';
     position: absolute;

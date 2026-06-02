@@ -44,7 +44,7 @@ const NAV_ITEMS = [
     dropdown: [
       { label: 'Skill Demand Trends', path: '/dashboard/trends' },
       { label: 'Skill Decay', path: '/dashboard/decay' },
-      { label: 'Fairness Metrics', path: '/dashboard/fairness' }
+      { label: 'Stipend Benchmark', path: '/stipend' }
     ]
   }
 ];

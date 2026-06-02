@@ -15,7 +15,7 @@ const updates = [
   { file: 'pages/ResumeBuilder.jsx', regex: /title="[^"]*"/, replacement: 'title="Resume Creator"' },
   { file: 'pages/SkillDemandTrends.jsx', regex: /title="[^"]*"/, replacement: 'title="Skill Demand Trends"' },
   { file: 'pages/SkillDecay.jsx', regex: /title="[^"]*"/, replacement: 'title="Skill Decay"' },
-  { file: 'pages/FairnessMetrics.jsx', regex: /title="[^"]*"/, replacement: 'title="Fairness Metrics"' }
+  { file: 'pages/StipendBenchmark.jsx', regex: /title="[^"]*"/, replacement: 'title="Stipend Benchmark"' }
 ];
 
 updates.forEach(update => {

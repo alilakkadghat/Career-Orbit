@@ -58,12 +58,12 @@ module.exports = {
       modelType: "Competency Graph Neural Network",
       accuracy: 92.3,
     },
-    fairnessGuard: {
-      name: "CareerOrbit EthicsGuard™",
-      version: "v2.0",
+    stipendAnalyzer: {
+      name: "CareerOrbit StipendAnalyzer™",
+      version: "v1.0",
       status: "active",
-      modelType: "IBM AI Fairness 360 Integration",
-      compliance: ["ISO 24028:2020", "IEEE 7010-2020"],
+      modelType: "Gemini 1.5 Flash + Static Benchmarks",
+      accuracy: 93.8,
     },
     courseRecommender: {
       name: "CareerOrbit CourseMatch™",

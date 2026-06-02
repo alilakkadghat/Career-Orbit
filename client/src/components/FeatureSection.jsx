@@ -33,7 +33,7 @@ const FeatureSection = () => {
         items: [
             { icon: '📉', title: 'Skill Decay', path: '/dashboard/decay', desc: 'Monitor the half-life of your expertise.' },
             { icon: '📊', title: 'Demand Trends', path: '/dashboard/trends', desc: 'Real-time market demand for your skills.' },
-            { icon: '⚖️', title: 'Fairness Metrics', path: '/dashboard/fairness', desc: 'Ensuring equitable growth opportunities.' }
+            { icon: '💰', title: 'Stipend Benchmark', path: '/stipend', desc: 'Evaluate internship pay against market standards.' }
         ]
     }
 ];

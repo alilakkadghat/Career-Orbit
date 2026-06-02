@@ -42,15 +42,3 @@ exports.getDecay = (req, res) => {
   });
 };
 
-exports.getFairness = (req, res) => {
-  const metrics = marketDataService.getFairnessReport();
-
-  return response.success(res, {
-    metrics,
-    certifications: [
-      "ISO 24028:2020 — AI Trustworthiness",
-      "IEEE 7010-2020 — Ethical AI Impact Assessment",
-    ],
-    ...withAIMetadata("fairnessGuard"),
-  });
-};

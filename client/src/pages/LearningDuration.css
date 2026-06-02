@@ -323,12 +323,12 @@
     gap: 1rem;
 }
 
-.section-title {
+.row-header .section-title {
     font-size: 1.5rem;
     font-weight: 700;
 }
 
-.section-subtitle {
+.row-header .section-subtitle {
     font-size: 0.95rem;
     color: var(--text-secondary);
     margin-top: 0.25rem;

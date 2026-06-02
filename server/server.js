@@ -56,8 +56,8 @@ app.get("/", (req, res) => {
             skills: ["/api/skills/upload", "/api/skills/analysis", "/api/skills/trending", "/api/skills/gap-analysis"],
             courses: ["/api/courses/recommendations"],
             career: ["/api/career/recommendations", "/api/career/timeline", "/api/career/transitions", "/api/career/simulator"],
-            learning: ["/api/learning/duration"],
-            dashboard: ["/api/dashboard/trends", "/api/dashboard/decay", "/api/dashboard/fairness"],
+            dashboard: ["/api/dashboard/trends", "/api/dashboard/decay"],
+            stipend: ["/api/stipend/benchmarks", "/api/stipend/analyze"],
             jobs: ["/api/jobs/recommendations"],
             resume: ["/api/resume/save", "/api/resume", "/api/resume/optimize", "/api/resume/parse"],
             system: ["/health", "/api/status"],
@@ -98,7 +98,7 @@ app.get("/api/status", (req, res) => {
         status: "online",
         database: pgConnected ? "postgresql" : "mock_mode",
         platform: "CareerOrbit Intelligence v2.0",
-        engines: ["SkillAnalyzer", "CareerPredictor", "JobMatch", "EthicsGuard"]
+        engines: ["SkillAnalyzer", "CareerPredictor", "JobMatch", "StipendAnalyzer"]
     });
 });
 

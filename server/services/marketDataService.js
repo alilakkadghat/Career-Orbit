@@ -6,7 +6,6 @@
 
 const { jobListings } = require("../data/jobsDataset");
 const { courseCatalog, learningDurations } = require("../data/coursesDataset");
-const { fairnessAuditReport } = require("../data/analyticsDataset");
 const linkedInAPI = require("../integrations/LinkedInAPI");
 const openAI = require("../integrations/OpenAIClient");
 
@@ -50,10 +49,6 @@ class MarketDataService {
     return learningDurations.filter((d) =>
       d.skill.toLowerCase().includes(skillFilter.toLowerCase())
     );
-  }
-
-  getFairnessReport() {
-    return fairnessAuditReport;
   }
 
   getMarketSnapshot() {
