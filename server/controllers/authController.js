@@ -60,7 +60,7 @@ exports.register = async (req, res) => {
 
     return response.success(res, {
       token,
-      user: { id: user.id, username: user.username, email: user.email, profileCompleted: user.profileCompleted },
+      user: { id: user.id, username: user.username, email: user.email, profileCompleted: user.profileCompleted, skills: user.skills || [] },
     });
   } catch (err) {
     logger.error(`[AUTH] Register Error: ${err.message}`);
@@ -110,7 +110,7 @@ exports.login = async (req, res) => {
 
     return response.success(res, {
       token,
-      user: { id: user.id, username: user.username, email: user.email, profileCompleted: user.profileCompleted },
+      user: { id: user.id, username: user.username, email: user.email, profileCompleted: user.profileCompleted, skills: user.skills || [] },
     });
   } catch (err) {
     logger.error(`[AUTH] Login Error: ${err.message}`);

@@ -4,6 +4,9 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PageHeader from '../components/PageHeader';
+import { useAuth } from '../context/AuthContext';
+import { useSkills } from '../context/SkillsContext';
+import { useSkillLevels } from '../context/SkillLevelsContext';
 import { useResume } from '../context/useResume';
 import { extractFileText } from '../utils/pdfParser';
 import './ResumeRoast.css';
@@ -28,6 +31,9 @@ const fadeIn = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, 
 
 const ResumeRoast = () => {
     const { resumeData, hasResume, saveResume, clearResume } = useResume();
+    const { user } = useAuth();
+    const { setFlatSkills } = useSkills();
+    const { syncSkillLevels } = useSkillLevels();
     const [status, setStatus] = useState('idle');
     const [targetRole, setTargetRole] = useState('Software Engineering internship');
     const [roast, setRoast] = useState('');
@@ -47,6 +53,25 @@ const ResumeRoast = () => {
             if (roastText) {
                 setRoast(roastText);
                 setStatus('done');
+
+                // Auto-sync parsed skills to profile backend and context
+                try {
+                    const profileRes = await axios.put(`${API_BASE}/api/profile/update-skills`, {
+                        userId: user?.id || 'U1023',
+                        resumeText
+                    });
+                    if (profileRes.data?.success) {
+                        const { updatedSkills, skillLevels } = profileRes.data;
+                        if (updatedSkills) {
+                            setFlatSkills(updatedSkills);
+                        }
+                        if (skillLevels) {
+                            syncSkillLevels(skillLevels);
+                        }
+                    }
+                } catch (profileErr) {
+                    console.error('Failed to sync resume skills to profile context:', profileErr);
+                }
             } else {
                 setErrorMsg('Could not get AI analysis. Try again.');
                 setStatus('error');

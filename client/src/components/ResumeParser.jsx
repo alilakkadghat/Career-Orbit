@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 import { useResume } from '../context/useResume';
 import './ResumeParser.css';
 
@@ -59,6 +61,7 @@ const ALL_SKILLS = Object.entries(SKILL_KEYWORDS).flatMap(([cat, skills]) =>
 
 const ResumeParser = ({ onSkillsDetected }) => {
     const { saveResume } = useResume();
+    const { user } = useAuth();
     const [status, setStatus] = useState('idle'); // idle | loading | done | error
     const [detectedSkills, setDetectedSkills] = useState([]);
     const [selectedSkills, setSelectedSkills] = useState([]);
@@ -151,7 +154,7 @@ const ResumeParser = ({ onSkillsDetected }) => {
         );
     };
 
-    const handleApply = () => {
+    const handleApply = async () => {
         const grouped = {};
         detectedSkills
             .filter(d => selectedSkills.includes(d.skill))
@@ -159,6 +162,18 @@ const ResumeParser = ({ onSkillsDetected }) => {
                 if (!grouped[category]) grouped[category] = [];
                 grouped[category].push(skill);
             });
+
+        // Auto-sync selected skills to backend profile
+        try {
+            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+            await axios.put(`${API_BASE}/api/profile/update-skills`, {
+                userId: user?.id || 'U1023',
+                skills: selectedSkills
+            });
+        } catch (err) {
+            console.error('Failed to sync parsed skills to profile backend:', err);
+        }
+
         onSkillsDetected(grouped);
         setStatus('idle');
         setDetectedSkills([]);

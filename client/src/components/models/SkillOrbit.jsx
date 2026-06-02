@@ -12,6 +12,8 @@ const planetsData = [
 
 const SkillOrbit = () => {
     const [hoverInfo, setHoverInfo] = useState({ visible: false, x: 0, y: 0, name: '', details: '' });
+    const [isInView, setIsInView] = useState(false);
+    const containerRef = useRef(null);
     const requestRef = useRef();
     const anglesRef = useRef(planetsData.map(() => 0));
     
@@ -44,9 +46,38 @@ const SkillOrbit = () => {
     };
 
     useEffect(() => {
-        requestRef.current = requestAnimationFrame(animate);
-        return () => cancelAnimationFrame(requestRef.current);
-    }, [animate]);
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsInView(entry.isIntersecting);
+            },
+            { threshold: 0.05 }
+        );
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            if (containerRef.current) {
+                observer.unobserve(containerRef.current);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isInView) {
+            requestRef.current = requestAnimationFrame(animate);
+        } else {
+            if (requestRef.current) {
+                cancelAnimationFrame(requestRef.current);
+            }
+        }
+        return () => {
+            if (requestRef.current) {
+                cancelAnimationFrame(requestRef.current);
+            }
+        };
+    }, [animate, isInView]);
 
     const handleMouseOver = (e, planet) => {
         const rect = e.target.getBoundingClientRect();
@@ -67,65 +98,81 @@ const SkillOrbit = () => {
     };
 
     return (
-        <div className="solar-system-container">
-            <div className="solar-system">
-                {/* Sun */}
-                <div className="sun">Core</div>
+        <div ref={containerRef} className="solar-system-container">
+            {isInView ? (
+                <>
+                    <div className="solar-system">
+                        {/* Sun */}
+                        <div className="sun">Core</div>
 
-                {/* Orbits & Planets */}
-                {planetsData.map((planet) => (
-                    <div key={planet.id}>
-                        <div 
-                            className="orbit" 
-                            style={{ width: `${planet.orbitWidth}px`, height: `${planet.orbitHeight}px` }} 
-                        />
-                        <div 
-                            id={`planet-${planet.id}`}
-                            className="planet"
-                            style={{ 
-                                background: `radial-gradient(circle at 30% 30%, ${planet.color1}, ${planet.color2})`,
-                                '--planet-color': planet.color1 
-                            }}
-                            onMouseOver={(e) => handleMouseOver(e, planet)}
-                            onMouseOut={handleMouseOut}
-                        />
-                        <div 
-                            id={`label-${planet.id}`}
-                            className="planet-name-label"
-                            style={{ transform: 'translate(-50%, -50%)', '--planet-color': planet.color1 }}
-                        >
-                            {planet.name}
-                        </div>
+                        {/* Orbits & Planets */}
+                        {planetsData.map((planet) => (
+                            <div key={planet.id}>
+                                <div 
+                                    className="orbit" 
+                                    style={{ width: `${planet.orbitWidth}px`, height: `${planet.orbitHeight}px` }} 
+                                />
+                                <div 
+                                    id={`planet-${planet.id}`}
+                                    className="planet"
+                                    style={{ 
+                                        background: `radial-gradient(circle at 30% 30%, ${planet.color1}, ${planet.color2})`,
+                                        '--planet-color': planet.color1 
+                                    }}
+                                    onMouseOver={(e) => handleMouseOver(e, planet)}
+                                    onMouseOut={handleMouseOut}
+                                />
+                                <div 
+                                    id={`label-${planet.id}`}
+                                    className="planet-name-label"
+                                    style={{ transform: 'translate(-50%, -50%)', '--planet-color': planet.color1 }}
+                                >
+                                    {planet.name}
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
 
-            {/* Hover Info Card */}
-            {hoverInfo.visible && (
-                <div 
-                    className="planet-info-card"
-                    style={{ left: hoverInfo.x, top: hoverInfo.y }}
-                >
-                    <h5 style={{ color: hoverInfo.color }}>{hoverInfo.name}</h5>
-                    <p>{hoverInfo.details}</p>
+                    {/* Hover Info Card */}
+                    {hoverInfo.visible && (
+                        <div 
+                            className="planet-info-card"
+                            style={{ left: hoverInfo.x, top: hoverInfo.y }}
+                        >
+                            <h5 style={{ color: hoverInfo.color }}>{hoverInfo.name}</h5>
+                            <p>{hoverInfo.details}</p>
+                        </div>
+                    )}
+
+                    <div style={{
+                        position: 'absolute',
+                        top: '40px',
+                        left: '40px',
+                        pointerEvents: 'none',
+                        fontFamily: 'monospace',
+                        color: 'rgba(255,255,255,0.3)',
+                        fontSize: '11px',
+                        letterSpacing: '3px',
+                        textTransform: 'uppercase'
+                    }}>
+                        [ Skill System Integration : Active ]<br />
+                        [ Neural Cluster : Synced ]<br />
+                        [ Visualization : Enhanced ]
+                    </div>
+                </>
+            ) : (
+                <div style={{
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    fontFamily: 'monospace',
+                    fontSize: '14px',
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    textAlign: 'center',
+                    pointerEvents: 'none'
+                }}>
+                    [ Loading Skill Orbit Visualization... ]
                 </div>
             )}
-
-            <div style={{
-                position: 'absolute',
-                top: '40px',
-                left: '40px',
-                pointerEvents: 'none',
-                fontFamily: 'monospace',
-                color: 'rgba(255,255,255,0.3)',
-                fontSize: '11px',
-                letterSpacing: '3px',
-                textTransform: 'uppercase'
-            }}>
-                [ Skill System Integration : Active ]<br />
-                [ Neural Cluster : Synced ]<br />
-                [ Visualization : Enhanced ]
-            </div>
         </div>
     );
 };

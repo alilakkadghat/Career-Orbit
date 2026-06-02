@@ -12,6 +12,9 @@ const { middleware: requestLogger } = require("./middleware/requestLogger");
 const { notFoundHandler, globalErrorHandler } = require("./middleware/errorHandler");
 const { sanitizeInput } = require("./middleware/validateRequest");
 
+// Force load models
+require("./models/UserPG");
+
 const app = express();
 
 /* -------------------- MIDDLEWARE -------------------- */
@@ -115,10 +118,14 @@ const startSystem = async () => {
         await initializePlatform();
 
         // Attempt DB link but proceed to mock mode if it fails
-        await sequelize.authenticate().then(() => {
+        await sequelize.authenticate().then(async () => {
             pgConnected = true;
             console.log("✅ Main Database Connected");
-        }).catch(() => {
+            
+            // Sync database schemas/tables
+            await sequelize.sync({ alter: true });
+            console.log("💾 Database Models Synchronized");
+        }).catch((err) => {
             pgConnected = false;
             console.warn("⚠️ Main Database unavailable. Switching to Mock Data Intelligence.");
         });

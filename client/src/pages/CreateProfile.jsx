@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import ResumeParser from '../components/ResumeParser';
 import { useSkills } from '../context/SkillsContext';
+import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
 import './CreateProfile.css';
 
 const CreateProfile = ({ onNext }) => {
     const { handleAddSkill, handleBatchSkills } = useSkills();
+    const { user, token, updateUser } = useAuth();
+    const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5001').replace(/\/$/, "");
 
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -266,14 +270,49 @@ const CreateProfile = ({ onNext }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateStep(4)) {
             syncSelectedSkillsToContext(formData.selectedSkills);
             saveProfileToStorage(formData);
 
-            console.log('Profile created & saved:', formData);
+            console.log('Profile created & saved local:', formData);
+
+            try {
+                const profilePayload = {
+                    userId: user?.id,
+                    fullName: formData.fullName,
+                    email: formData.email,
+                    education: formData.education,
+                    degree: formData.degree,
+                    institution: formData.institution,
+                    skills: formData.selectedSkills,
+                    experience: formData.yearsExperience,
+                    currentRole: formData.currentRole,
+                    targetRole: formData.targetRole,
+                    targetIndustry: formData.targetIndustry,
+                    timeframe: formData.timeframe,
+                    collegeName: formData.collegeName,
+                    graduationYear: formData.graduationYear ? parseInt(formData.graduationYear) : null,
+                    branch: formData.branch,
+                    careerInterests: []
+                };
+
+                const headers = {};
+                if (token) {
+                    headers["x-auth-token"] = token;
+                }
+
+                console.log('Submitting profile payload to database:', profilePayload);
+                const res = await axios.post(`${API_BASE}/api/profile/create`, profilePayload, { headers });
+                console.log('Profile successfully synced to database:', res.data);
+                if (res.data.success && res.data.profile) {
+                    updateUser(res.data.profile);
+                }
+            } catch (err) {
+                console.error('Failed to sync profile to database:', err.response?.data || err.message);
+            }
 
             if (onNext) {
                 onNext();

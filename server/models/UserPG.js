@@ -51,6 +51,38 @@ const User = sequelize.define('User', {
     branch: {
         type: DataTypes.STRING,
         defaultValue: ''
+    },
+    education: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
+    institution: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
+    degree: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
+    experience: {
+        type: DataTypes.STRING,
+        defaultValue: 'Fresher'
+    },
+    targetIndustry: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
+    timeframe: {
+        type: DataTypes.STRING,
+        defaultValue: '6 months'
+    },
+    careerInterests: {
+        type: DataTypes.JSONB,
+        defaultValue: []
+    },
+    skillLevels: {
+        type: DataTypes.JSONB,
+        defaultValue: {}
     }
 }, {
     hooks: {

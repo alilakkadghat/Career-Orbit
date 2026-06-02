@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSkillLevels } from '../context/SkillLevelsContext';
 import { useSkills } from '../context/SkillsContext';
+import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
 import ProgressBar from '../components/ProgressBar';
 import PageHeader from '../components/PageHeader';
 import './SkillLevels.css';
@@ -9,6 +11,9 @@ import './SkillLevels.css';
 const SkillLevels = () => {
     const { skillLevels, setSkillLevel } = useSkillLevels();
     const { skills } = useSkills();
+    const { user, token, updateUser } = useAuth();
+    const navigate = useNavigate();
+    const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5001').replace(/\/$/, "");
 
     const handleLevelChange = (skill, value) => {
         setSkillLevel(skill, value);
@@ -67,6 +72,38 @@ const SkillLevels = () => {
         soft: 'Soft Skills',
         tools: 'Tools & Platforms',
         languages: 'Languages'
+    };
+
+    const handleSaveAndNavigate = async () => {
+        try {
+            const allSkills = Object.values(skills).flat();
+            const payload = {
+                userId: user?.id,
+                skills: allSkills,
+                skillLevels: skillLevels
+            };
+
+            const headers = {};
+            if (token) {
+                headers["x-auth-token"] = token;
+            }
+
+            console.log("Saving skills and levels to database:", payload);
+            const res = await axios.put(`${API_BASE}/api/profile/update-skills`, payload, { headers });
+            console.log("Successfully saved skills and levels to SQL!");
+            
+            if (res.data.success && user) {
+                const updatedUser = {
+                    ...user,
+                    skills: allSkills,
+                    skillLevels: skillLevels
+                };
+                updateUser(updatedUser);
+            }
+        } catch (err) {
+            console.error("Failed to save skills and levels:", err.response?.data || err.message);
+        }
+        navigate("/career/recommendations");
     };
 
     return (
@@ -204,12 +241,12 @@ const SkillLevels = () => {
                     ))}
 
                     <div className="levels-actions text-center mt-8 pt-6">
-                        <Link
-                            to="/career/recommendations"
+                        <button
+                            onClick={handleSaveAndNavigate}
                             className="btn btn-primary btn-lg"
                         >
                             Discover Career Recommendations →
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </section>

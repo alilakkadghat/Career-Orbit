@@ -20,23 +20,65 @@ export const SkillsProvider = ({ children }) => {
         };
     });
 
-    // Sync from localStorage if storageKey changes (e.g. on login/logout)
+    // Sync from user object (database) or localStorage if storageKey/user changes
     useEffect(() => {
-        const saved = localStorage.getItem(storageKey);
-        if (saved) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setSkills(JSON.parse(saved));
-        } else {
-            // Default skills for new user or guest
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setSkills({
-                technical: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL'],
-                soft: ['Communication', 'Leadership', 'Problem Solving'],
-                tools: ['Git', 'Docker', 'VS Code'],
-                languages: ['English', 'Spanish']
+        if (user && user.skills && Array.isArray(user.skills)) {
+            // Group the flat skills array from database
+            const SKILL_KEYWORDS_TAXONOMY = {
+                tools: [
+                    'Git', 'GitHub', 'GitLab', 'Bitbucket', 'Docker', 'Kubernetes', 'Terraform',
+                    'AWS', 'Azure', 'GCP', 'Heroku', 'Netlify', 'Vercel', 'Linux', 'CI/CD',
+                    'Jenkins', 'GitHub Actions', 'CircleCI', 'Travis CI', 'Ansible', 'Puppet',
+                    'Jira', 'Confluence', 'Figma', 'Sketch', 'Adobe XD', 'Postman', 'Swagger',
+                    'VS Code', 'IntelliJ', 'Eclipse', 'Vim', 'Webpack', 'Vite', 'Babel',
+                    'Elasticsearch', 'Kafka', 'RabbitMQ', 'Nginx', 'Apache', 'DevOps', 'MLOps'
+                ],
+                soft: [
+                    'Leadership', 'Communication', 'Problem Solving', 'Teamwork', 'Collaboration',
+                    'Project Management', 'Time Management', 'Critical Thinking', 'Creativity',
+                    'Adaptability', 'Mentoring', 'Public Speaking', 'Agile', 'Scrum', 'Kanban'
+                ],
+                languages: [
+                    'English', 'Spanish', 'French', 'German', 'Mandarin', 'Hindi', 'Arabic',
+                    'Japanese', 'Korean', 'Portuguese', 'Italian', 'Russian', 'Dutch'
+                ]
+            };
+
+            const grouped = {
+                technical: [],
+                soft: [],
+                tools: [],
+                languages: []
+            };
+
+            user.skills.forEach(skill => {
+                const lower = skill.toLowerCase().trim();
+                if (SKILL_KEYWORDS_TAXONOMY.tools.some(s => s.toLowerCase() === lower)) {
+                    grouped.tools.push(skill);
+                } else if (SKILL_KEYWORDS_TAXONOMY.soft.some(s => s.toLowerCase() === lower)) {
+                    grouped.soft.push(skill);
+                } else if (SKILL_KEYWORDS_TAXONOMY.languages.some(s => s.toLowerCase() === lower)) {
+                    grouped.languages.push(skill);
+                } else {
+                    grouped.technical.push(skill);
+                }
             });
+
+            setSkills(grouped);
+        } else {
+            const saved = localStorage.getItem(storageKey);
+            if (saved) {
+                setSkills(JSON.parse(saved));
+            } else {
+                setSkills({
+                    technical: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL'],
+                    soft: ['Communication', 'Leadership', 'Problem Solving'],
+                    tools: ['Git', 'Docker', 'VS Code'],
+                    languages: ['English', 'Spanish']
+                });
+            }
         }
-    }, [storageKey]);
+    }, [user, storageKey]);
 
     // Save to localStorage whenever skills change
     useEffect(() => {
@@ -85,6 +127,50 @@ export const SkillsProvider = ({ children }) => {
         });
     };
 
+    const setFlatSkills = (flatSkills) => {
+        const SKILL_KEYWORDS_TAXONOMY = {
+            tools: [
+                'Git', 'GitHub', 'GitLab', 'Bitbucket', 'Docker', 'Kubernetes', 'Terraform',
+                'AWS', 'Azure', 'GCP', 'Heroku', 'Netlify', 'Vercel', 'Linux', 'CI/CD',
+                'Jenkins', 'GitHub Actions', 'CircleCI', 'Travis CI', 'Ansible', 'Puppet',
+                'Jira', 'Confluence', 'Figma', 'Sketch', 'Adobe XD', 'Postman', 'Swagger',
+                'VS Code', 'IntelliJ', 'Eclipse', 'Vim', 'Webpack', 'Vite', 'Babel',
+                'Elasticsearch', 'Kafka', 'RabbitMQ', 'Nginx', 'Apache', 'DevOps', 'MLOps'
+            ],
+            soft: [
+                'Leadership', 'Communication', 'Problem Solving', 'Teamwork', 'Collaboration',
+                'Project Management', 'Time Management', 'Critical Thinking', 'Creativity',
+                'Adaptability', 'Mentoring', 'Public Speaking', 'Agile', 'Scrum', 'Kanban'
+            ],
+            languages: [
+                'English', 'Spanish', 'French', 'German', 'Mandarin', 'Hindi', 'Arabic',
+                'Japanese', 'Korean', 'Portuguese', 'Italian', 'Russian', 'Dutch'
+            ]
+        };
+
+        const grouped = {
+            technical: [],
+            soft: [],
+            tools: [],
+            languages: []
+        };
+
+        flatSkills.forEach(skill => {
+            const lower = skill.toLowerCase().trim();
+            if (SKILL_KEYWORDS_TAXONOMY.tools.some(s => s.toLowerCase() === lower)) {
+                grouped.tools.push(skill);
+            } else if (SKILL_KEYWORDS_TAXONOMY.soft.some(s => s.toLowerCase() === lower)) {
+                grouped.soft.push(skill);
+            } else if (SKILL_KEYWORDS_TAXONOMY.languages.some(s => s.toLowerCase() === lower)) {
+                grouped.languages.push(skill);
+            } else {
+                grouped.technical.push(skill);
+            }
+        });
+
+        setSkills(grouped);
+    };
+
     // Flatten all skills for pages that just need a list
     const allSkillsList = Object.values(skills).flat();
 
@@ -95,7 +181,8 @@ export const SkillsProvider = ({ children }) => {
             allSkillsList, 
             handleAddSkill, 
             handleRemoveSkill,
-            handleBatchSkills
+            handleBatchSkills,
+            setFlatSkills
         }}>
             {children}
         </SkillsContext.Provider>

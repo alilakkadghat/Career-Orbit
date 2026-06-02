@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
+import { useSkills } from '../context/SkillsContext';
+import { useSkillLevels } from '../context/SkillLevelsContext';
 import { useResume } from '../context/useResume';
 import { extractFileText } from '../utils/pdfParser';
 import Navbar from '../components/Navbar';
@@ -10,6 +13,9 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 const ChatPage = () => {
     const { resumeData, hasResume, saveResume } = useResume();
+    const { user } = useAuth();
+    const { setFlatSkills } = useSkills();
+    const { syncSkillLevels } = useSkillLevels();
     
     const [chatMode, setChatMode] = useState('mentor');
     const [chatResumeText, setChatResumeText] = useState('');
@@ -214,6 +220,25 @@ const ChatPage = () => {
             
             setChatResumeText(text);
             if (saveResume) saveResume(text, file.name, []);
+
+            // Auto-sync parsed skills to profile backend and context
+            try {
+                const profileRes = await axios.put(`${API_BASE}/api/profile/update-skills`, {
+                    userId: user?.id || 'U1023',
+                    resumeText: text
+                });
+                if (profileRes.data?.success) {
+                    const { updatedSkills, skillLevels } = profileRes.data;
+                    if (updatedSkills) {
+                        setFlatSkills(updatedSkills);
+                    }
+                    if (skillLevels) {
+                        syncSkillLevels(skillLevels);
+                    }
+                }
+            } catch (profileErr) {
+                console.error('Failed to sync resume skills to profile context:', profileErr);
+            }
             
             setMessages(prev => [...prev, { 
                 id: Date.now() + 1, 

@@ -73,11 +73,19 @@ export const SkillLevelsProvider = ({ children }) => {
         }));
     };
 
+    const syncSkillLevels = (levels) => {
+        setSkillLevels(prev => ({
+            ...prev,
+            ...levels
+        }));
+    };
+
     return (
         <SkillLevelsContext.Provider
             value={{
                 skillLevels,
-                setSkillLevel
+                setSkillLevel,
+                syncSkillLevels
             }}
         >
             {children}
