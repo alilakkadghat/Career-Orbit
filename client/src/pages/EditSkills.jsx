@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SkillTag from '../components/SkillTag';
 import PageHeader from '../components/PageHeader';
-import ResumeParser from '../components/ResumeParser';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useSkills } from '../context/SkillsContext';
@@ -116,17 +115,6 @@ const EditSkills = ({ onNext }) => {
                                 </div>
                             </motion.div>
                         </div>
-
-                        {/* Resume Parser */}
-                        <motion.div className="resume-upload-card glass-card mb-8" {...fadeIn} transition={{ delay: 0.25 }}>
-                            <div className="section-header-premium">
-                                <h2>⚡ Auto-Import from Resume</h2>
-                                <p>Upload your CV and we'll instantly detect and add all your skills.</p>
-                            </div>
-                            <div style={{ marginTop: '16px' }}>
-                                <ResumeParser onSkillsDetected={handleResumeSkills} />
-                            </div>
-                        </motion.div>
 
                         {/* Add Skills Section */}
                         <motion.div className="add-skills-card glass-card mb-12" {...fadeIn} transition={{ delay: 0.3 }}>

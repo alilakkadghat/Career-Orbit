@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { SkillLevelsProvider } from './context/SkillLevelsContext';
 import { SkillsProvider } from './context/SkillsContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { SelectedRoleProvider } from './context/SelectedRoleContext';
 import Home from './pages/Home';
 import Preloader from './components/Preloader';
 import ScrollToTop from './components/ScrollToTop';
@@ -73,62 +75,57 @@ function App() {
       <LanguageProvider>
         <AuthProvider>
           <SkillsProvider>
-            {loading ? (
-              <Preloader />
-            ) : (
-              <Router>
-                <ScrollToTop />
-                <Chatbot />
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/problem" element={<ProblemStatement />} />
-                  <Route path="/how-it-works" element={<HowItWorks />} />
-                  <Route path="/solution" element={<HowItWorks />} />
-                  
-                  {/* Dedicated Full Page Chat */}
-                  <Route path="/ai-chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+            <SkillLevelsProvider>
+              <SelectedRoleProvider>
+                {loading ? (
+                  <Preloader />
+                ) : (
+                  <Router>
+                    <ScrollToTop />
+                    <Chatbot />
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/signup" element={<Signup />} />
+                      <Route path="/problem" element={<ProblemStatement />} />
+                      <Route path="/how-it-works" element={<HowItWorks />} />
+                      <Route path="/solution" element={<HowItWorks />} />
 
-                  {/* Profile Routes */}
-                  <Route path="/profile" element={<ProtectedRoute><ProfileDashboard /></ProtectedRoute>} />
-                  <Route path="/profile/create" element={<Navigate to="/profile" replace />} />
-                  <Route path="/profile/edit-skills" element={<Navigate to="/profile" replace />} />
-                  <Route path="/profile/skill-levels" element={<Navigate to="/profile" replace />} />
+                      <Route path="/ai-chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
 
-                  {/* Career Path Routes */}
-                  <Route path="/career/recommendations" element={<ProtectedRoute><RoleRecommendations /></ProtectedRoute>} />
-                  <Route path="/career/timeline" element={<ProtectedRoute><CareerTimeline /></ProtectedRoute>} />
-                  <Route path="/career/transitions" element={<ProtectedRoute><SectorTransitions /></ProtectedRoute>} />
-                  <Route path="/career/simulator" element={<ProtectedRoute><CareerSimulator /></ProtectedRoute>} />
-                  <Route path="/career/comparison" element={<ProtectedRoute><CareerComparison /></ProtectedRoute>} />
+                      <Route path="/profile" element={<ProtectedRoute><ProfileDashboard /></ProtectedRoute>} />
+                      <Route path="/profile/create" element={<Navigate to="/profile" replace />} />
+                      <Route path="/profile/edit-skills" element={<Navigate to="/profile" replace />} />
+                      <Route path="/profile/skill-levels" element={<Navigate to="/profile" replace />} />
 
-                  {/* Learning Path Routes */}
-                  <Route path="/learning/gap-analysis" element={<ProtectedRoute><SkillGapAnalysis /></ProtectedRoute>} />
-                  <Route path="/learning/courses" element={<ProtectedRoute><RecommendedCourses /></ProtectedRoute>} />
-                  <Route path="/learning/duration" element={<ProtectedRoute><LearningDuration /></ProtectedRoute>} />
+                      <Route path="/career/recommendations" element={<ProtectedRoute><RoleRecommendations /></ProtectedRoute>} />
+                      <Route path="/career/timeline" element={<ProtectedRoute><CareerTimeline /></ProtectedRoute>} />
+                      <Route path="/career/transitions" element={<ProtectedRoute><SectorTransitions /></ProtectedRoute>} />
+                      <Route path="/career/simulator" element={<ProtectedRoute><CareerSimulator /></ProtectedRoute>} />
+                      <Route path="/career/comparison" element={<ProtectedRoute><CareerComparison /></ProtectedRoute>} />
 
-                  {/* Placement Routes */}
-                  <Route path="/placement/jobs" element={<ProtectedRoute><JobRecommendations /></ProtectedRoute>} />
+                      <Route path="/learning/gap-analysis" element={<ProtectedRoute><SkillGapAnalysis /></ProtectedRoute>} />
+                      <Route path="/learning/courses" element={<ProtectedRoute><RecommendedCourses /></ProtectedRoute>} />
+                      <Route path="/learning/duration" element={<ProtectedRoute><LearningDuration /></ProtectedRoute>} />
 
-                  {/* Resume Routes */}
-                  <Route path="/resume/builder" element={<ProtectedRoute><ResumeBuilder /></ProtectedRoute>} />
-                  <Route path="/resume/preview" element={<ProtectedRoute><ResumePreview /></ProtectedRoute>} />
+                      <Route path="/placement/jobs" element={<ProtectedRoute><JobRecommendations /></ProtectedRoute>} />
 
-                  {/* Dashboard Routes */}
-                  <Route path="/dashboard/trends" element={<ProtectedRoute><SkillDemandTrends /></ProtectedRoute>} />
-                  <Route path="/dashboard/decay" element={<ProtectedRoute><SkillDecay /></ProtectedRoute>} />
-                  <Route path="/dashboard/fairness" element={<ProtectedRoute><FairnessMetrics /></ProtectedRoute>} />
+                      <Route path="/resume/builder" element={<ProtectedRoute><ResumeBuilder /></ProtectedRoute>} />
+                      <Route path="/resume/preview" element={<ProtectedRoute><ResumePreview /></ProtectedRoute>} />
 
-                  {/* Mahirie — Campus-to-Career Routes */}
-                  <Route path="/stipend" element={<ProtectedRoute><StipendBenchmark /></ProtectedRoute>} />
-                  <Route path="/resume/roast" element={<ProtectedRoute><ResumeRoast /></ProtectedRoute>} />
+                      <Route path="/dashboard/trends" element={<ProtectedRoute><SkillDemandTrends /></ProtectedRoute>} />
+                      <Route path="/dashboard/decay" element={<ProtectedRoute><SkillDecay /></ProtectedRoute>} />
+                      <Route path="/dashboard/fairness" element={<ProtectedRoute><FairnessMetrics /></ProtectedRoute>} />
 
-                  {/* Catch-all route: Redirect unknown routes to home */}
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </Router>
-            )}
+                      <Route path="/stipend" element={<ProtectedRoute><StipendBenchmark /></ProtectedRoute>} />
+                      <Route path="/resume/roast" element={<ProtectedRoute><ResumeRoast /></ProtectedRoute>} />
+
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                  </Router>
+                )}
+              </SelectedRoleProvider>
+            </SkillLevelsProvider>
           </SkillsProvider>
         </AuthProvider>
       </LanguageProvider>
